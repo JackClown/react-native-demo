@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+   "id": "l123456",
+   "name": "lushengjie",
+   "avatar": "",
+   "mobile": "18888630590",
+   "authorities": ["0","1","2"]
+}
