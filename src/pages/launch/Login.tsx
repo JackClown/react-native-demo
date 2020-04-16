@@ -34,9 +34,9 @@ export default function Login(props: Props) {
 
   return (
     <Form style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="always">
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps='always'>
         <View style={styles.welcome}>
-          <Text size={scaleFont(60)} color="dark">
+          <Text size={scaleFont(60)} color='dark'>
             欢迎来到乐檬零售
           </Text>
         </View>
@@ -44,44 +44,44 @@ export default function Login(props: Props) {
           <Image style={styles.avatar} source={require('@/assets/img/book-code.png')} />
           <TextInput
             style={styles.input}
-            placeholder="输入帐套号"
+            placeholder='输入帐套号'
             value={bookCode}
             onChangeText={value => handleChange('bookCode', value)}
             selectTextOnFocus
-            returnKeyType="done"
-            clearButtonMode="while-editing"
+            returnKeyType='done'
+            clearButtonMode='while-editing'
           />
         </View>
         <View style={styles.inputWrapper}>
           <Image style={styles.avatar} source={require('@/assets/img/user.png')} />
           <TextInput
             style={styles.input}
-            placeholder="输入用户名"
+            placeholder='输入用户名'
             value={userCode}
             onChangeText={value => handleChange('userCode', value)}
             selectTextOnFocus
-            returnKeyType="done"
-            clearButtonMode="while-editing"
+            returnKeyType='done'
+            clearButtonMode='while-editing'
           />
         </View>
         <View style={styles.inputWrapper}>
           <Image style={styles.avatar} source={require('@/assets/img/pwd.png')} />
           <TextInput
             style={styles.input}
-            placeholder="输入密码"
+            placeholder='输入密码'
             value={userPsw}
             secureTextEntry
             onChangeText={value => handleChange('userPsw', value)}
             selectTextOnFocus
-            returnKeyType="done"
-            clearButtonMode="while-editing"
+            returnKeyType='done'
+            clearButtonMode='while-editing'
           />
         </View>
         <View style={styles.btn}>
           <Button
             onPress={handleSubmit}
-            type="primary"
-            size="lg"
+            type='primary'
+            size='lg'
             shadow
             disabled={bookCode === '' || userCode === '' || userPsw === ''}>
             登录

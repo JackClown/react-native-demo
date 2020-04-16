@@ -4,48 +4,35 @@ import { StyleProp, StyleSheet, ViewStyle, View, TouchableHighlight } from 'reac
 import { whitespace, whitespace_lg } from '@/config/theme';
 import { scaleSize } from '@/utils/scale';
 import { useTheme } from './Theme';
-import Text from './Text';
 
 interface Props {
-  header?: string | ReactNode;
   style?: StyleProp<ViewStyle>;
   children?: ReactNode;
-  size?: 'xlg' | 'lg' | 'md';
+  size: 'lg' | 'sm' | 'md';
   onPress?: () => void;
 }
 
-export default function CardView(props: Props) {
-  const { style, header, children, size, onPress } = props;
+export default function ShadowCard(props: Props) {
+  const { style, children, size, onPress } = props;
 
   const { color } = useTheme();
 
   return (
     <TouchableHighlight underlayColor={color.background} onPress={onPress}>
-      <View
-        style={[styles.container, styles[size as keyof typeof styles || 'md'], { backgroundColor: color.foreground }, style]}>
-        {header !== undefined && (
-          <View style={styles.header}>
-            {typeof header === 'string' || typeof header === 'number' ? (
-              <Text size="h1" color="dark">
-                {header}
-              </Text>
-            ) : (
-              header
-            )}
-          </View>
-        )}
-        {children}
-      </View>
+      <View style={[styles.container, styles[size], { backgroundColor: color.foreground }, style]}>{children}</View>
     </TouchableHighlight>
   );
 }
 
+ShadowCard.defaultProps = {
+  size: 'md'
+};
+
 const styles = StyleSheet.create<{
   container: ViewStyle;
-  header: ViewStyle;
   lg: ViewStyle;
   md: ViewStyle;
-  xlg: ViewStyle;
+  sm: ViewStyle;
 }>({
   container: {
     borderRadius: scaleSize(8),
@@ -53,18 +40,15 @@ const styles = StyleSheet.create<{
     shadowOpacity: 0.14,
     shadowRadius: scaleSize(10)
   },
-  header: {
-    paddingBottom: scaleSize(36)
-  },
-  xlg: {
+  lg: {
     paddingVertical: scaleSize(40),
     paddingHorizontal: whitespace_lg
   },
-  lg: {
+  md: {
     paddingVertical: whitespace_lg,
     paddingHorizontal: whitespace_lg
   },
-  md: {
+  sm: {
     paddingVertical: whitespace,
     paddingHorizontal: whitespace_lg
   }

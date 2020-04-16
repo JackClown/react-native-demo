@@ -18,24 +18,23 @@ export default function Grid(props: Props) {
   }
 
   const containerStyle: StyleProp<ViewStyle> = {
-    flexDirection: 'row', flexWrap: 'wrap',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     marginHorizontal: -gutter[0] / 2,
     marginVertical: -gutter[1] / 2
-  }
+  };
 
   const itemStyle: StyleProp<ViewStyle> = {
-    width:  `${100 / cols}%`,
+    width: `${100 / cols}%`,
     marginVertical: gutter[1] / 2,
     marginHorizontal: gutter[0] / 2
-  }
+  };
 
   return (
     <View style={containerStyle}>
       {Children.map(children, (child, index) => {
         return (
-          <View
-            style={itemStyle}
-            key={index}>
+          <View style={itemStyle} key={index}>
             {child}
           </View>
         );

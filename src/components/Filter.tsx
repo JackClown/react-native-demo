@@ -1,27 +1,27 @@
-import React, { Component, ReactText, ReactNode } from 'react';
+import React, { ReactText, ReactNode, useState, useMemo, useEffect } from 'react';
 import { View, StyleSheet, TouchableHighlight, ScrollView, Dimensions } from 'react-native';
 import { Flex } from '@ant-design/react-native';
 
+import { scaleSize } from '@/utils/scale';
 import Text from './Text';
 import Radio, { Button } from './Radio';
-import { scaleSize } from '@/utils/scale';
-import { bottom_border_color } from '../config/theme';
+import { useTheme } from './Theme';
 
 type Value = ReactText | LabeledValue | LabeledValue[] | undefined;
 
-interface Item {
-  key: string;
+export interface Item<T extends State> {
+  key: keyof T;
   label: string;
-  group: LabeledValue[] | ((state: State) => Promise<LabeledValue | LabeledValue[]>);
-  after?: () => { [key: string]: Value };
-  render?: (state: State, onChange: (value: Value) => void) => ReactNode;
+  type: 'checkbox' | 'radio' | 'select' | 'multi-select';
+  group: LabeledValue[] | ((state: T) => Promise<LabeledValue | LabeledValue[]>);
+  render?: (state: T, onChange: (value: Value) => void) => ReactNode;
 }
 
-interface Props {
-  data: Item[];
-  value: State;
-  defaultValue?: State;
-  onConfirm: (value: State) => void;
+interface Props<T extends State> {
+  data: Item<T>[];
+  defaultValue?: T;
+  value: T;
+  onChange: (value: T) => void;
   scrollable?: boolean;
 }
 
@@ -63,187 +63,153 @@ function CheckBox(props: {
   );
 }
 
-export default class Filter extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+export default function Filter<T extends State>(props: Props<T>) {
+  const { defaultValue, value, onChange, scrollable, data } = props;
 
-    this.state = { ...props.value };
-  }
-
-  private handleChange = (item: Item, value: Value) => {
-    this.setState(
-      Object.assign(
-        {
-          [item.key]: value
-        },
-        item.after ? item.after() : undefined
-      )
-    );
-  };
-
-  private handleReset = () => {
-    const { defaultValue, data, onConfirm } = this.props;
-    let value: State = {};
-
-    if (defaultValue !== undefined) {
-      value = defaultValue;
+  const origin = useMemo(() => {
+    if (defaultValue) {
+      return defaultValue;
     } else {
-      data.forEach(item => {
-        if (Array.isArray(item.group)) {
-          value[item.key] = item.group.length > 0 ? item.group[0].value : '';
-        } else {
-          value[item.key] = undefined;
-        }
-      });
+      return value;
     }
+  }, [defaultValue]);
 
-    this.setState(value, () => {
-      onConfirm(value);
-    });
+  const [state, setState] = useState(value);
+
+  useEffect(() => {
+    setState(value);
+  }, [value]);
+
+  const handleChange = (item: Item<T>, value: Value) => {
+    setState(prev => ({
+      ...prev,
+      [item.key]: value
+    }));
   };
 
-  private handleConfirm = () => {
-    this.props.onConfirm(this.state);
+  const handleReset = () => {
+    onChange(origin);
   };
 
-  private handleAdd = async (item: Item) => {
+  const handleConfirm = () => {
+    onChange(state);
+  };
+
+  const handleAdd = async (item: Item<T>) => {
     try {
-      const group = await (item.group as (state: State) => Promise<LabeledValue[]>)(this.state);
+      const group = await (item.group as (state: T) => Promise<LabeledValue[]>)(state);
 
-      this.setState(
-        Object.assign(
-          {
-            [item.key]: group
-          },
-          item.after ? item.after() : undefined
-        )
-      );
+      handleChange(item, group);
     } catch (err) {}
   };
 
-  private handleRemove = (item: Item) => {
-    this.setState(
-      Object.assign(
-        {
-          [item.key]: undefined
-        },
-        item.after ? item.after() : undefined
-      )
-    );
+  const handleRemove = (item: Item<T>) => {
+    handleChange(item, undefined);
   };
 
-  private handleRemoveLabeledValue = (item: Item, group: LabeledValue) => {
-    let groups = this.state[item.key] as LabeledValue[];
+  const handleRemoveLabeledValue = (item: Item<T>, group: LabeledValue) => {
+    let value = state[item.key] as LabeledValue[];
 
-    const index = groups.findIndex(item => item === group);
+    const index = value.findIndex(item => item === group);
 
     if (index >= 0) {
-      groups = [...groups];
+      value = [...value];
 
-      groups.splice(index, 1);
+      value.splice(index, 1);
 
-      this.setState(
-        Object.assign(
-          {
-            [item.key]: groups
-          },
-          item.after ? item.after() : undefined
-        )
-      );
+      handleChange(item, value);
     }
   };
 
-  public render() {
-    const { data, scrollable } = this.props;
+  const { color } = useTheme();
 
-    const content = (
-      <View style={styles.content}>
-        {data.map(item => {
-          const value = this.state[item.key];
-          let elm: ReactNode;
+  const content = (
+    <View style={[styles.content, { backgroundColor: color.foreground }]}>
+      {data.map(item => {
+        const value = state[item.key];
+        let elm: ReactNode;
 
-          const handleChange = <T extends Value>(val: T) => {
-            this.handleChange(item, val);
-          };
+        const change = (val: Value) => {
+          handleChange(item, val);
+        };
 
-          if (item.render) {
-            elm = item.render(this.state, handleChange);
-          } else if (typeof item.group === 'function') {
-            elm = (
-              <Flex wrap='wrap'>
-                {Array.isArray(value) ? (
-                  value.slice(0, 9).map(group => {
-                    return (
-                      <Button key={group.value} active onPress={() => this.handleRemoveLabeledValue(item, group)}>
-                        {group.label}
-                      </Button>
-                    );
-                  })
-                ) : value !== undefined ? (
-                  <Button active onPress={() => this.handleRemove(item)}>
-                    {(value as LabeledValue).label}
-                  </Button>
-                ) : null}
-                <Button onPress={() => this.handleAdd(item)} active={false}>
-                  {Array.isArray(value) && value.length > 9 ? '更多' : '选择'}
-                </Button>
-              </Flex>
-            );
-          } else if (Array.isArray(value)) {
-            elm = <CheckBox options={item.group} value={value} onChange={handleChange} />;
-          } else {
-            elm = (
-              <Radio.Group value={value} onChange={handleChange}>
-                {item.group.map(radio => (
-                  <Radio key={radio.value} value={radio.value}>
-                    {radio.label}
-                  </Radio>
-                ))}
-              </Radio.Group>
-            );
-          }
-
-          return (
-            <View style={styles.filterBlock} key={item.key}>
-              <Text>{item.label}</Text>
-              {elm}
-            </View>
+        if (item.render) {
+          elm = item.render(state, change);
+        } else if (item.type === 'radio') {
+          elm = (
+            <Radio.Group value={value} onChange={change}>
+              {(item.group as LabeledValue[]).map(radio => (
+                <Radio key={radio.value} value={radio.value}>
+                  {radio.label}
+                </Radio>
+              ))}
+            </Radio.Group>
           );
-        })}
-      </View>
-    );
+        } else if (item.type === 'checkbox') {
+          elm = <CheckBox options={item.group as LabeledValue[]} value={value as LabeledValue[]} onChange={change} />;
+        } else if (item.type === 'select') {
+          elm = (
+            <Flex wrap='wrap'>
+              {value !== undefined ? (
+                <Button active onPress={() => handleRemove(item)}>
+                  {(value as LabeledValue).label}
+                </Button>
+              ) : null}
+              <Button onPress={() => handleAdd(item)} active={false}>
+                选择
+              </Button>
+            </Flex>
+          );
+        } else if (item.type === 'multi-select') {
+          elm = (
+            <Flex wrap='wrap'>
+              {Array.isArray(value) &&
+                value.slice(0, 9).map(group => {
+                  return (
+                    <Button key={group.value} active onPress={() => handleRemoveLabeledValue(item, group)}>
+                      {group.label}
+                    </Button>
+                  );
+                })}
+              <Button onPress={() => handleAdd(item)} active={false}>
+                {Array.isArray(value) && value.length > 9 ? '更多' : '选择'}
+              </Button>
+            </Flex>
+          );
+        }
 
-    return (
-      <View>
-        {scrollable ? (
-          <ScrollView style={{ height: Dimensions.get('window').height * 0.6 }}>{content}</ScrollView>
-        ) : (
-          content
-        )}
-        <View style={styles.footer}>
-          <TouchableHighlight
-            style={styles.footerButton}
-            onPress={this.handleReset}
-            underlayColor={bottom_border_color}
-          >
-            <Text size='h1' color='light'>
-              重置
-            </Text>
-          </TouchableHighlight>
-          <View style={styles.line} />
-          <TouchableHighlight
-            style={styles.footerButton}
-            onPress={this.handleConfirm}
-            underlayColor={bottom_border_color}
-          >
-            <Text size='h1' color='primary'>
-              确定
-            </Text>
-          </TouchableHighlight>
-        </View>
+        return (
+          <View style={styles.filterBlock} key={item.key as string}>
+            <Text size='h3' color='dark'>{item.label}</Text>
+            {elm}
+          </View>
+        );
+      })}
+    </View>
+  );
+
+  return (
+    <View>
+      {scrollable ? (
+        <ScrollView style={{ height: Dimensions.get('window').height * 0.6 }}>{content}</ScrollView>
+      ) : (
+        content
+      )}
+      <View style={[styles.footer, { borderTopColor: color.line, backgroundColor: color.foreground }]}>
+        <TouchableHighlight style={styles.footerButton} onPress={handleReset} underlayColor={color.background}>
+          <Text size='h1' color='light'>
+            重置
+          </Text>
+        </TouchableHighlight>
+        <View style={[styles.line, { backgroundColor: color.line }]} />
+        <TouchableHighlight style={styles.footerButton} onPress={handleConfirm} underlayColor={color.background}>
+          <Text size='h1' color='primary'>
+            确定
+          </Text>
+        </TouchableHighlight>
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -259,13 +225,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     height: scaleSize(90),
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderColor: bottom_border_color
+    borderTopWidth: StyleSheet.hairlineWidth
   },
   line: {
     width: StyleSheet.hairlineWidth,
-    height: '100%',
-    backgroundColor: bottom_border_color
+    height: '100%'
   },
   footerButton: {
     flex: 1,

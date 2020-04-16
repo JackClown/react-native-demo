@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import { connect } from 'react-redux';
 
-import { ShadowCard, Header } from '@/components';
+import { ShadowCard, Header, Page, Text, WhiteSpace } from '@/components';
 import { getApps, App } from '@/config/App';
 import { ParamList } from '@/config/routes';
 import Grid from './components/Grid';
@@ -27,11 +27,15 @@ function Home(props: Props) {
   };
 
   return (
-    <>
-      <Header title="首页" />
+    <Page>
+      <Header title='首页' />
       <ScrollView contentContainerStyle={{ paddingVertical: whitespace, paddingHorizontal: whitespace_lg }}>
         {apps.map(item => (
-          <ShadowCard header={item.title} size="xlg" key={item.title}>
+          <ShadowCard size='lg' key={item.title}>
+            <Text size='h1' color='dark'>
+              {item.title}
+            </Text>
+            <WhiteSpace />
             <Grid cols={4}>
               {item.content.map(app => (
                 <AppItem key={app.key} name={app.name} icon={app.icon} onPress={() => handlePress(app)} />
@@ -40,7 +44,7 @@ function Home(props: Props) {
           </ShadowCard>
         ))}
       </ScrollView>
-    </>
+    </Page>
   );
 }
 

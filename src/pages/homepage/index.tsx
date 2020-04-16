@@ -22,7 +22,7 @@ function Index() {
 
   return (
     <>
-      <StatusBar backgroundColor={color.primary} barStyle="light-content" />
+      <StatusBar backgroundColor={color.primary} barStyle='light-content' />
       <Tab.Navigator
         tabBarOptions={{
           activeTintColor: primary_color,
@@ -37,7 +37,7 @@ function Index() {
           }
         }}>
         <Tab.Screen
-          name="home"
+          name='home'
           component={Home}
           options={{
             tabBarLabel: '首页',
@@ -50,7 +50,7 @@ function Index() {
           }}
         />
         <Tab.Screen
-          name="settings"
+          name='settings'
           component={Settings}
           options={{
             tabBarLabel: '设置',

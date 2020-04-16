@@ -31,26 +31,29 @@ function Launch(props: Props) {
     const user = await getCurrentUser();
 
     const deploymentKey = {
-      ios: 'zumpedhPQRZ38lk7lCUMqBQ935Pq4ksvOXqog',
-      android: 'UDs9gEr85eCmo19jr060II9An5jB4ksvOXqog'
+      ios: 'VJBPHmQio11msdBGC2XVPtLWJDVW4ksvOXqog',
+      android: 'AEwVZMajazeUPga2JphhqYqnaswk4ksvOXqog'
     };
 
-    await sync(Platform.select(deploymentKey) as string, 2000, ({ totalBytes, receivedBytes }) => {
+    const flag = await sync(Platform.select(deploymentKey) as string, 2000, ({ totalBytes, receivedBytes }) => {
       setProgress(((receivedBytes / totalBytes) * 100).toFixed(0) + '%');
     });
 
-    await new Promise((res, rej) => {
-      setUser({
-        user,
-        cb: err => {
-          if (err) {
-            rej(err);
-          } else {
-            res();
+    if (flag === 0) {
+      await new Promise((res, rej) => {
+        setUser({
+          user,
+          cb: err => {
+            if (err) {
+              rej(err);
+            } else {
+              res();
+            }
           }
-        }
+        });
       });
-    });
+    } else if (flag === 1) {
+    }
   };
 
   const submit = async (data: LoginParam) => {
@@ -85,13 +88,13 @@ function Launch(props: Props) {
 
   return loading ? (
     <Page style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size="large" text={progress ? `正在更新：${progress}` : undefined} />
+      <ActivityIndicator size='large' text={progress ? `正在更新：${progress}` : undefined} />
     </Page>
   ) : user.id ? (
     <Navigator />
   ) : (
     <>
-      {!progress ? null : <ActivityIndicator size="large" text={`正在初始化：${progress}`} toast />}
+      {!progress ? null : <ActivityIndicator size='large' text={`正在初始化：${progress}`} toast />}
       <Login onSubmit={submit} />
     </>
   );

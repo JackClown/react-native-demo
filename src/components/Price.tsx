@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { StyleProp, ViewStyle, Text as RNText, StyleSheet } from 'react-native';
 
-import Authorized from './Authorized';
 import Text from './Text';
 
 interface Props {
@@ -14,33 +13,14 @@ interface Props {
 export default function Price(props: Props) {
   const { price, unit, style } = props;
 
-  const view = (
-    <Fragment>
+  return (
+    <RNText style={[styles.container, style]}>
       <Text color='primary' size='normal' fontWeight='bold'>
         ¥
       </Text>
       <Text color='primary' size='h3' fontWeight='bold'>
         {price + ' '}
       </Text>
-    </Fragment>
-  );
-
-  return (
-    <RNText style={[styles.container, style]}>
-      {props.authority ? (
-        <Authorized
-          authority={props.authority}
-          noMatch={
-            <Text color='primary' size='h3' fontWeight='bold'>
-              ***
-            </Text>
-          }
-        >
-          {view}
-        </Authorized>
-      ) : (
-        view
-      )}
       {unit !== undefined && (
         <Text color='grey' size='normal'>
           /{unit}

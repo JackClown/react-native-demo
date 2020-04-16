@@ -8,7 +8,7 @@ import Avatar from './Avatar';
 interface Props {
   name: string | ReactNode;
   spec: string | ReactNode;
-  image: string;
+  image?: string;
   children?: ReactNode;
   size?: 'lg' | 'md' | 'xlg';
 }

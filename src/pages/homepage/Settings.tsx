@@ -19,26 +19,21 @@ function Settings(props: Props) {
   const { logoutRequest } = props;
 
   const handleLogout = () => {
-    Modal.alert(
-      '提示',
-      '登出将会清空所有数据',
-      [
-        { text: '取消' },
-        {
-          text: '确定',
-          onPress: logoutRequest
-        }
-      ],
-      'clear'
-    );
+    Modal.alert('提示', '登出将会清空所有数据', [
+      { text: '取消' },
+      {
+        text: '确定',
+        onPress: logoutRequest
+      }
+    ]);
   };
 
   return (
     <Page>
-      <Header title="设置" />
+      <Header title='设置' />
       <ScrollView>
         <View style={styles.logout}>
-          <Button onPress={handleLogout} type="primary" shadow>
+          <Button onPress={handleLogout} type='primary' shadow>
             退出登录
           </Button>
         </View>

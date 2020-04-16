@@ -70,3 +70,5 @@ export function useTheme() {
 export const ThemeProvider = Context.Provider;
 
 export const ThemeConsumer = Context.Consumer;
+
+export type ThemeType = typeof defaultTheme;

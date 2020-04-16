@@ -16,7 +16,7 @@ export default function AppItem(props: Props) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       {isValidElement(icon) ? icon : <Image source={icon} style={styles.icon} />}
-      <Text size="normal" color={color || 'grey'} numberOfLines={1}>
+      <Text size='normal' color={color || 'grey'} numberOfLines={1}>
         {name}
       </Text>
     </TouchableOpacity>

@@ -4,12 +4,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import useScreenOptions from '@/config/screeOptions';
 import home from '@/pages/homepage';
+import demo from '@/pages/demo';
+import common from '@/pages/common';
 
 const Stack = createStackNavigator();
 
 export default function Navigator() {
   const screens = useMemo(() => {
-    return [...home];
+    return [...home, ...demo, ...common];
   }, []);
 
   const screenOptions = useScreenOptions();

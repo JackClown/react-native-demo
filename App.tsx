@@ -13,16 +13,16 @@ export default function App() {
   const value = useColorScheme();
 
   return (
-    <AntdProvider>
-      <SafeAreaProvider>
-        <ThemeProvider value={value ? theme[value] : theme.light}>
+    <SafeAreaProvider>
+      <ThemeProvider value={value ? theme[value] : theme.light}>
+        <AntdProvider>
           <Provider store={store}>
             <PersistGate persistor={persistor}>
               <Launch />
             </PersistGate>
           </Provider>
-        </ThemeProvider>
-      </SafeAreaProvider>
-    </AntdProvider>
+        </AntdProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

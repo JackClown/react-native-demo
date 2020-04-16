@@ -1,30 +1,21 @@
 import React from 'react';
-import { Global } from 'declarations';
 import { Carousel } from '@ant-design/react-native';
 import { View, StyleSheet, Image } from 'react-native';
+
 import { scaleSize } from '@/utils/scale';
 import { primary_color } from '@/config/theme';
 
 interface Props {
-  images?: Global.Item['posImageDTOS'];
-  urls?: string[];
+  urls: string[];
 }
 
 export default function Gallery(props: Props) {
-  const { images, urls } = props;
+  const { urls } = props;
 
-  let data: string[] = [];
-
-  if (Array.isArray(images)) {
-    data = images.map(item => item.posImageUrl);
-  } else if (Array.isArray(urls)) {
-    data = urls;
-  }
-
-  return data.length > 0 ? (
+  return urls.length > 0 ? (
     <View style={style.gallery}>
       <Carousel dotStyle={style.dot} dotActiveStyle={style.activeDot} styles={carouselStyles}>
-        {data.map((item, index) => (
+        {urls.map((item, index) => (
           <View style={style.imageContainer} key={index}>
             <Image source={{ uri: item }} style={style.image} />
           </View>
@@ -42,8 +33,7 @@ const carouselStyles = {
 const style = StyleSheet.create({
   gallery: {
     width: '100%',
-    height: scaleSize(500),
-    backgroundColor: '#fff'
+    height: scaleSize(500)
   },
   imageContainer: {
     flexGrow: 1,

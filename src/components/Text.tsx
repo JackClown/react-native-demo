@@ -26,7 +26,7 @@ export default function DefaultText(props: DefaultTextProps) {
 
   switch (size) {
     case 'xl':
-      textStyle.fontSize = fontSize.lg;
+      textStyle.fontSize = fontSize.xl;
       break;
     case 'lg':
       textStyle.fontSize = fontSize.lg;

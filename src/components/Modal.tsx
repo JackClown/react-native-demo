@@ -13,17 +13,18 @@ import {
 } from 'react-native';
 
 import Text from './Text';
-import { scaleSize, scaleFont } from '@/utils/scale';
-import { whitespace, font_color_dark, font_color_grey, bottom_border_color, whitespace_lg } from '../config/theme';
+import { scaleSize } from '@/utils/scale';
+import { ThemeConsumer, ThemeType, useTheme } from './Theme';
+import { whitespace, whitespace_lg } from '../config/theme';
 
 interface Props {
   title: string;
   visible?: boolean;
   content: ReactText | ReactNode;
-  actions: Array<{
+  actions: {
     text: string;
     onPress?: () => void;
-  }>;
+  }[];
   onClose?: () => void;
   avatar: ImageSourcePropType;
   children?: ReactNode;
@@ -34,9 +35,11 @@ interface State {
   visible: boolean;
 }
 
-export function Button(props: { type: 'primary' | 'grey' | 'error'; onPress?: () => void; children: string }) {
+function Button(props: { type: 'primary' | 'grey' | 'error'; onPress?: () => void; children: string }) {
+  const { color } = useTheme();
+
   return (
-    <TouchableHighlight onPress={props.onPress} underlayColor='#ddd' style={styles.button}>
+    <TouchableHighlight onPress={props.onPress} underlayColor={color.background} style={styles.button}>
       <Text size='h1' color={props.type}>
         {props.children}
       </Text>
@@ -58,20 +61,22 @@ class Modal extends PureComponent<Props, State> {
   }
 
   public onClose = () => {
-    if (this.props.onClose) {
-      this.props.onClose();
+    const { onClose, visible } = this.props;
+
+    if (onClose) {
+      onClose();
     }
 
-    if (this.props.visible === undefined) {
+    if (visible === undefined) {
       this.setState({ visible: false });
     }
   };
 
-  render() {
+  private renderContent = ({ color }: ThemeType) => {
     const { title, content, onAnimationEnd, actions, avatar } = this.props;
 
     const footer = actions.map(button => {
-      const orginPress = button.onPress || function() {};
+      const orginPress = button.onPress || function () {};
 
       return {
         ...button,
@@ -82,12 +87,10 @@ class Modal extends PureComponent<Props, State> {
       };
     });
 
-    let visible;
+    let visible = this.state.visible;
 
     if (this.props.visible !== undefined) {
       visible = this.props.visible;
-    } else {
-      visible = this.state.visible;
     }
 
     return (
@@ -99,13 +102,14 @@ class Modal extends PureComponent<Props, State> {
         animateAppear={true}
         wrapStyle={styles.container}
         style={styles.outWrapper}
-        onClose={this.onClose}
-      >
-        <View style={styles.wrapper}>
+        onClose={this.onClose}>
+        <View style={[styles.wrapper]}>
           <Image style={styles.type} source={avatar} />
-          <View style={styles.innerContainer}>
+          <View style={[styles.innerContainer, { backgroundColor: color.foreground }]}>
             <View style={styles.body}>
-              <Text style={styles.title}>{title}</Text>
+              <Text size='lg' color='dark' fontWeight='bold'>
+                {title}
+              </Text>
               <View style={styles.content}>
                 {typeof content === 'string' || typeof content === 'number' ? (
                   <Text numberOfLines={3} size='h3' color='grey'>
@@ -116,11 +120,11 @@ class Modal extends PureComponent<Props, State> {
                 )}
               </View>
             </View>
-            <View style={styles.footer}>
+            <View style={[styles.footer, { borderTopColor: color.line }]}>
               {footer.length > 1 ? (
                 footer.map((item, index) => (
                   <Fragment key={item.text}>
-                    {index > 0 && <View style={styles.buttonGutter} />}
+                    {index > 0 && <View style={[styles.buttonGutter, { backgroundColor: color.line }]} />}
                     <Button type={index === 0 ? 'grey' : 'primary'} onPress={item.onPress}>
                       {item.text}
                     </Button>
@@ -136,10 +140,14 @@ class Modal extends PureComponent<Props, State> {
         </View>
       </ModalView>
     );
+  };
+
+  public render() {
+    return <ThemeConsumer>{this.renderContent}</ThemeConsumer>;
   }
 }
 
-const AlertModal = function(props: Props) {
+const AlertModal = function (props: Props) {
   return <Modal {...props} />;
 };
 
@@ -149,11 +157,11 @@ const edit = require('@/assets/img/modal-edit.png');
 
 let prevModal: any;
 
-AlertModal.alert = function(
+AlertModal.alert = function (
   title: string,
   content: string | ReactNode,
   actions: Array<{ text: string; onPress?: () => void }> = [],
-  type: 'warning' | 'error' | 'submit' | 'clear' | 'process' | 'reject' | ImageSourcePropType = 'warning',
+  type: 'warning' | 'error' | 'edit' | ImageSourcePropType = 'warning',
   props: {
     maskClosable?: boolean;
   } = {}
@@ -170,11 +178,10 @@ AlertModal.alert = function(
 
       break;
     case 'warning':
-    case 'submit':
-    case 'clear':
-    case 'process':
-    case 'reject':
       avatar = warning;
+      break;
+    case 'edit':
+      avatar = edit;
       break;
     default:
       avatar = type;
@@ -259,7 +266,6 @@ class PromptModal extends PureComponent<PromptProps> {
           <KeyboardAvoidingView behavior={Platform.OS === 'android' ? undefined : 'padding'}>
             <TextInput
               placeholder={placeholder}
-              maxLength={10}
               style={styles.input}
               defaultValue={defaultValue}
               onChangeText={this.handleChangeText}
@@ -267,13 +273,12 @@ class PromptModal extends PureComponent<PromptProps> {
               onSubmitEditing={this.handleSubmit}
             />
           </KeyboardAvoidingView>
-        }
-      ></Modal>
+        }></Modal>
     );
   }
 }
 
-AlertModal.prompt = function(
+AlertModal.prompt = function (
   title: string,
   callback: (value: string) => void,
   defaultValue: string,
@@ -328,7 +333,6 @@ const styles = StyleSheet.create({
   innerContainer: {
     width: scaleSize(560),
     minHeight: scaleSize(310),
-    backgroundColor: '#fff',
     borderRadius: scaleSize(20),
     overflow: 'hidden'
   },
@@ -337,23 +341,16 @@ const styles = StyleSheet.create({
     minHeight: scaleSize(219),
     paddingTop: scaleSize(90)
   },
-  title: {
-    fontSize: scaleFont(36),
-    fontWeight: 'bold',
-    color: font_color_dark
-  },
   content: {
     width: '100%',
     alignItems: 'center',
     paddingHorizontal: whitespace_lg,
-    paddingVertical: whitespace,
-    color: font_color_grey
+    paddingVertical: whitespace
   },
   footer: {
     flexDirection: 'row',
     height: scaleSize(90),
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: bottom_border_color
+    borderTopWidth: StyleSheet.hairlineWidth
   },
   button: {
     flex: 1,
@@ -363,8 +360,7 @@ const styles = StyleSheet.create({
   },
   buttonGutter: {
     width: StyleSheet.hairlineWidth,
-    height: '100%',
-    backgroundColor: bottom_border_color
+    height: '100%'
   },
   input: {
     width: scaleSize(440),

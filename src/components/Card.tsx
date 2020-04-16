@@ -1,4 +1,4 @@
-import React, { ReactNode, Fragment } from 'react';
+import React, { ReactNode } from 'react';
 import { StyleSheet, View, StyleProp, ViewStyle } from 'react-native';
 
 import { whitespace, whitespace_lg } from '../config/theme';
@@ -19,7 +19,7 @@ interface Props {
 }
 
 export default function Card(props: Props) {
-  const { style, size } = props;
+  const { style, size, header, footer, children } = props;
 
   const { color } = useTheme();
 
@@ -55,25 +55,33 @@ export default function Card(props: Props) {
 
   return (
     <View style={containerStyle}>
-      {props.header && (
-        <Fragment>
+      {header && (
+        <>
           <View style={headerStyle}>
-            {typeof props.header === 'string' ? (
-              <Text size="h1" color="dark" fontWeight="bold">
-                {props.header}
+            {typeof header === 'string' ? (
+              <Text size='h1' color='dark' fontWeight='bold'>
+                {header}
               </Text>
             ) : (
-              props.header
+              header
             )}
           </View>
           {props.children !== undefined && <DashedBorder />}
-        </Fragment>
+        </>
       )}
-      {props.children !== undefined && <View style={bodyStyle}>{props.children}</View>}
-      {props.footer && (
+      {children !== undefined && <View style={bodyStyle}>{children}</View>}
+      {footer && (
         <View>
           <DashedBorder />
-          <View style={styles.footer}>{props.footer}</View>
+          <View style={styles.footer}>
+            {typeof footer === 'string' ? (
+              <Text size='h1' color='dark'>
+                {footer}
+              </Text>
+            ) : (
+              footer
+            )}
+          </View>
         </View>
       )}
     </View>

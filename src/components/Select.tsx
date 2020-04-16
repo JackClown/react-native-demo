@@ -21,7 +21,7 @@ interface Props<T> {
   keyExtractor: (item: T) => string | number;
   labelExtractor: (item: T) => string | number;
   filter: (item: T, keywords: string) => boolean;
-  placeholder: string;
+  placeholder?: string;
 }
 
 export default function Select<T>(props: Props<T>) {
@@ -90,7 +90,7 @@ Select.create = function <T extends string | number, K = any>(
   fetch: (query: K) => PromiseLike<LabeledValue<T>[]>,
   placeholder: string = '输入名称查询'
 ) {
-  return function Branches(props: {
+  return function (props: {
     route: {
       params: {
         value: LabeledValue<T>;
