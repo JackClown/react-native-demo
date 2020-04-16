@@ -1,4 +1,4 @@
-package com.nhsoft.shopapp3;
+package com.nhsoft.demo;
 
 import com.facebook.react.ReactActivity;
 

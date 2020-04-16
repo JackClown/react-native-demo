@@ -1,4 +1,4 @@
-package com.nhsoft.shopapp3.umeng;
+package com.nhsoft.demo.umeng;
 
 import java.util.ArrayList;
 import java.util.Collections;
