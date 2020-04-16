@@ -22,7 +22,7 @@ export { default as Card } from './Card';
 export { default as Form } from './Form';
 export { default as SubmitFooter } from './SubmitFooter';
 export { default as Modal } from './Modal';
-export { default as ListView } from 'react-native-fetch-list';
+export { default as ListView } from './ListView';
 export { default as TabBar } from './TabBar';
 export { default as DropDown } from './DropDown';
 export { default as InputItem, NumberInputItem } from './InputItem';

@@ -6394,10 +6394,10 @@ react-native-device-info@^5.5.4:
   resolved "https://registry.npm.taobao.org/react-native-device-info/download/react-native-device-info-5.5.4.tgz#470770db4e8a35c55b8269473d81790102074057"
   integrity sha1-Rwdw206KNcVbgmlHPYF5AQIHQFc=
 
-react-native-fetch-list@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/react-native-fetch-list/download/react-native-fetch-list-1.0.0.tgz#9c27565f53395afc5d0128dd0188c46c724d73dc"
-  integrity sha1-nCdWX1M5WvxdASjdAYjEbHJNc9w=
+react-native-fetch-list@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/react-native-fetch-list/download/react-native-fetch-list-1.0.1.tgz#4432f0c95577599336d201202a2d13e8de63cc52"
+  integrity sha1-RDLwyVV3WZM20gEgKi0T6N5jzFI=
   dependencies:
     memoize-one "^5.1.1"
 

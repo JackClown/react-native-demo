@@ -78,7 +78,13 @@ export default class GoodsList<T = Global.Item> extends PureComponent<Props<T>, 
   }
 
   renderItem = (props: ListRenderItemInfo<T>) => {
-    return <View style={styles.itemWrapper}>{this.props.renderItem(props)}</View>;
+    const { renderItem } = this.props;
+
+    if (renderItem) {
+      return <View style={styles.itemWrapper}>{renderItem(props)}</View>;
+    } else {
+      return null;
+    }
   };
 
   render() {
