@@ -33,7 +33,7 @@ function Settings(props: Props) {
       <Header title='设置' />
       <ScrollView>
         <View style={styles.logout}>
-          <Button onPress={handleLogout} type='primary' shadow>
+          <Button onPress={handleLogout} type='primary'>
             退出登录
           </Button>
         </View>

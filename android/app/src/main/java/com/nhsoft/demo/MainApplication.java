@@ -1,6 +1,7 @@
 package com.nhsoft.demo;
 
-import android.app.Application;
+import androidx.multidex.MultiDexApplication;
+
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
@@ -11,15 +12,10 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-//友盟sdk
 import com.nhsoft.demo.umeng.DplusReactPackage;
-import com.nhsoft.demo.umeng.RNUMConfigure;
-import com.umeng.commonsdk.UMConfigure;
-import com.umeng.analytics.MobclickAgent;
-
 import com.microsoft.codepush.react.CodePush;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {

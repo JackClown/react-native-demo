@@ -8,7 +8,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "mock": "node ./mocks/index"
+    "mock": "node ./mocks/index",
+    "postinstall": "./postinstall.sh"
   },
   "dependencies": {
     "@ant-design/react-native": "^3.3.0",

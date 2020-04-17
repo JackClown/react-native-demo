@@ -88,13 +88,13 @@ function Launch(props: Props) {
 
   return loading ? (
     <Page style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size='large' text={progress ? `正在更新：${progress}` : undefined} />
+      <ActivityIndicator size='large' text={progress ? `更新：${progress}` : undefined} />
     </Page>
   ) : user.id ? (
     <Navigator />
   ) : (
     <>
-      {!progress ? null : <ActivityIndicator size='large' text={`正在初始化：${progress}`} toast />}
+      {!progress ? null : <ActivityIndicator size='large' text={`初始化：${progress}`} toast />}
       <Login onSubmit={submit} />
     </>
   );

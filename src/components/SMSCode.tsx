@@ -6,26 +6,20 @@ import Text from './Text';
 import { useInterval } from '@/utils/hooks';
 
 interface Props {
-  phone: string;
   style?: StyleProp<ViewStyle>;
   onError?: (err: Error) => void;
   autoSend?: boolean;
+  request: () => Promise<any>;
 }
 
 export default function SMSCode(props: Props) {
-  const { phone, onError, autoSend } = props;
+  const { onError, autoSend, request } = props;
 
   const [timing, setTiming] = useState(0);
 
   const send = async () => {
     try {
-      /*
-      await sendCheckCode({
-        app_user_num: +userId,
-        phone,
-        type: '乐檬零售APP'
-      });
-      */
+      await request();
 
       setTiming(180);
     } catch (err) {

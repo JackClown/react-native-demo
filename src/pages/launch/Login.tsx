@@ -82,7 +82,6 @@ export default function Login(props: Props) {
             onPress={handleSubmit}
             type='primary'
             size='lg'
-            shadow
             disabled={bookCode === '' || userCode === '' || userPsw === ''}>
             登录
           </Button>

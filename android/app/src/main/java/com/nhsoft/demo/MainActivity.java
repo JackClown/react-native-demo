@@ -2,6 +2,7 @@ package com.nhsoft.demo;
 
 import com.facebook.react.ReactActivity;
 
+import android.os.Bundle;
 import com.umeng.analytics.MobclickAgent;
 
 public class MainActivity extends ReactActivity {
