@@ -9,6 +9,7 @@ import ShadowCardDemo from './ShadowCard';
 import AvatarDemo from './Avatar';
 import FilterDemo from './Filter';
 import GoodsItem from './GoodsItem';
+import Button from './Button';
 
 const screens: ScreenConfig[] = [
   {
@@ -72,6 +73,13 @@ const screens: ScreenConfig[] = [
     component: GoodsItem,
     options: {
       title: 'GoodsItem'
+    }
+  },
+  {
+    name: Routes.Demo.Button,
+    component: Button,
+    options: {
+      title: 'Button'
     }
   }
 ];

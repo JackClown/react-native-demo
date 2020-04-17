@@ -7840,10 +7840,10 @@ typescript-tuple@^2.2.1:
   dependencies:
     typescript-compare "^0.0.2"
 
-typescript@^3.9.0-dev.20200402:
-  version "3.9.0-dev.20200402"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.9.0-dev.20200402.tgz?cache=0&sync_timestamp=1585811866184&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.9.0-dev.20200402.tgz#f09c5a7d7ef1370ad7ef46b84e2732002276107c"
-  integrity sha1-8JxafX7xNwrX70a4TicyACJ2EHw=
+typescript@^3.9.0-dev.20200416:
+  version "3.9.0-dev.20200416"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.9.0-dev.20200416.tgz#8cd09b68d0ec409bcbd2d6381297d476d982db85"
+  integrity sha1-jNCbaNDsQJvL0tY4EpfUdtmC24U=
 
 ua-parser-js@^0.7.18:
   version "0.7.21"

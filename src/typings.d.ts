@@ -22,3 +22,9 @@ declare interface User {
 declare interface ReduxState {
   user: User;
 }
+
+declare interface TreeItem<T extends string | number = string | number> {
+  key: T;
+  label: string;
+  children?: TreeItem<T>[];
+}

@@ -1,4 +1,4 @@
-import React, { Component, Fragment, ReactElement } from 'react';
+import React, { Component, ReactElement } from 'react';
 import {
   Modal,
   StyleSheet,
@@ -90,7 +90,7 @@ export default class CameraScanner extends Component<Props, State> {
     const { children, style, color } = this.props;
 
     return (
-      <Fragment>
+      <>
         {children ? (
           React.cloneElement(children, {
             onPress: this.openModal
@@ -133,7 +133,7 @@ export default class CameraScanner extends Component<Props, State> {
             </RNCamera>
           </SafeAreaView>
         </Modal>
-      </Fragment>
+      </>
     );
   }
 }

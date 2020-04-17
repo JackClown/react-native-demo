@@ -7,7 +7,6 @@ import List, { ListProps } from './ListView';
 import Text from './Text';
 import NoData from './NoData';
 import { scaleSize } from '@/utils/scale';
-import { Global } from 'declarations';
 
 interface State {
   activeCategory: string;
@@ -15,7 +14,7 @@ interface State {
 }
 
 interface Props<T> extends Pick<ListProps<T>, Exclude<keyof ListProps<T>, 'fetch' | 'filter' | 'keyExtractor'>> {
-  categories: Global.TreeItem[];
+  categories: TreeItem[];
   listRef?: RefObject<List<any>>;
   fetch: (params: { activeCategory: string; page: number; limit: number }) => Promise<T[]>;
 }
@@ -95,7 +94,7 @@ export default class GoodsList<T = Global.Item> extends PureComponent<Props<T>, 
         <GoodsCategories
           data={this.props.categories}
           activeKey={this.state.activeCategory}
-          onClick={this.handleCategorySelect}
+          onPress={this.handleCategorySelect}
         />
         <List<T>
           {...listProps}
