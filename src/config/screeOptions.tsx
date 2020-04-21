@@ -7,7 +7,7 @@ import { scaleFont, scaleSize } from '@/utils/scale';
 import { HeaderBack } from '@/components';
 import { useTheme } from '@/components/Theme';
 
-export const screenOptions = {
+export const screenOptions: StackNavigationOptions = {
   headerStyle: {
     shadowColor: 'transparent',
     shadowOpacity: 0,
@@ -15,7 +15,7 @@ export const screenOptions = {
     borderBottomWidth: 0,
     height: scaleSize(88)
   },
-  headerLeft: (props: any) => <HeaderBack {...props} />,
+  headerLeft: props => <HeaderBack {...props} />,
   headerLeftContainerStyle: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -34,7 +34,7 @@ export const screenOptions = {
   headerTintColor: '#fff',
   gestureEnabled: true,
   headerTitleAlign: 'center'
-} as const;
+};
 
 export default function useScreenOptions(): StackNavigationOptions {
   const height = useSafeArea().top + scaleSize(88);
@@ -44,7 +44,7 @@ export default function useScreenOptions(): StackNavigationOptions {
   return {
     ...screenOptions,
     headerStyle: {
-      ...screenOptions.headerStyle,
+      ...(screenOptions.headerStyle as Object),
       backgroundColor: color.header,
       height
     }

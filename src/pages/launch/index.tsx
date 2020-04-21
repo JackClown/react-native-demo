@@ -93,10 +93,7 @@ function Launch(props: Props) {
   ) : user.id ? (
     <Navigator />
   ) : (
-    <>
-      {!progress ? null : <ActivityIndicator size='large' text={`初始化：${progress}`} toast />}
-      <Login onSubmit={submit} />
-    </>
+    <Login onSubmit={submit} />
   );
 }
 

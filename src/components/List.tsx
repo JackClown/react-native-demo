@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { List as AntdList } from '@ant-design/react-native';
 import { ListProps } from '@ant-design/react-native/lib/list';
 
 import { useTheme } from './Theme';
 
-interface Props extends ListProps {}
+interface Props extends Omit<ListProps, 'children'> {
+  children?: ReactNode;
+}
 
 export default function CustomeList(props: Props) {
   const {
@@ -14,7 +16,7 @@ export default function CustomeList(props: Props) {
 
   return (
     <AntdList
-      {...props}
+      {...(props as ListProps)}
       styles={{
         BodyBottomLine: { borderBottomColor: color.background, backgroundColor: color.background },
         Body: { borderTopColor: color.background },
