@@ -7,7 +7,6 @@ interface Props {
   price: number | string;
   unit?: string;
   style?: StyleProp<ViewStyle>;
-  authority?: string;
 }
 
 export default function Price(props: Props) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, memo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Image, View, TouchableOpacity, StyleSheet, ScrollView, Platform } from 'react-native';
 
 import { scaleSize } from '@/utils/scale';
@@ -37,7 +37,7 @@ function MenuItem<T extends string | number>(props: ItemProps<T>) {
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
-    setCollapsed(active);
+    setCollapsed(!active);
   }, [active]);
 
   const handlePress = () => {
@@ -134,7 +134,7 @@ function SiderMenu<T extends string | number>(props: Props<T>) {
   );
 }
 
-export default memo(SiderMenu);
+export default SiderMenu;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,84 +1,68 @@
-import React, { PureComponent, createRef, RefObject } from 'react';
-import { Image, View, StyleSheet, ListRenderItemInfo, SafeAreaView } from 'react-native';
-import * as Animatable from 'react-native-animatable';
+import React, { createRef, RefObject, useState, useEffect } from 'react';
+import { View, StyleSheet, ListRenderItemInfo } from 'react-native';
 
-import GoodsCategories from './GoodsCategories';
-import List, { ListProps } from './ListView';
-import Text from './Text';
-import NoData from './NoData';
 import { scaleSize } from '@/utils/scale';
+import { useAsyncEffect } from '@/utils/hooks';
+import GoodsCategories from './GoodsCategories';
+import ListView, { ListProps } from './ListView';
+import NoData from './NoData';
+import Spin from './Spin';
+import { useTheme } from './Theme';
 
-interface State {
-  activeCategory: string;
-  loading: boolean;
+interface Props<T> extends Pick<ListProps<T>, Exclude<keyof ListProps<T>, 'fetch' | 'filter'>> {
+  listRef?: RefObject<ListView<any>>;
+  fetchGoods: (params: { activeCategory: string; page: number; limit: number }) => Promise<T[]>;
+  fetchCategories: () => Promise<TreeItem<string>[]>;
 }
 
-interface Props<T> extends Pick<ListProps<T>, Exclude<keyof ListProps<T>, 'fetch' | 'filter' | 'keyExtractor'>> {
-  categories: TreeItem[];
-  listRef?: RefObject<List<any>>;
-  fetch: (params: { activeCategory: string; page: number; limit: number }) => Promise<T[]>;
-}
+export default function GoodsList<T>(props: Props<T>) {
+  const { listRef, fetchGoods, fetchCategories, renderItem, ...restProps } = props;
 
-export default class GoodsList<T = Global.Item> extends PureComponent<Props<T>, State> {
-  state: State = {
-    activeCategory: '',
-    loading: true
-  };
+  const [categories, setCategories] = useState<TreeItem<string>[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState<string>('');
 
-  list: RefObject<List<any>>;
-  loadingView = createRef<Animatable.View>();
+  const list = listRef ? listRef : createRef<ListView<any>>();
 
-  constructor(props: Props<T>) {
-    super(props);
-
-    if (props.listRef) {
-      this.list = props.listRef;
-    } else {
-      this.list = createRef();
-    }
-  }
-
-  keyExtractor = (item: T) => (item as any).itemNum.toString();
-
-  componentDidMount() {
-    if (this.props.categories.length > 0) {
-      this.handleCategorySelect(this.props.categories[0].key);
-    }
-  }
-
-  componentDidUpdate({ categories }: Props<T>) {
-    if (categories.length === 0 && this.props.categories.length > 0) {
-      this.handleCategorySelect(this.props.categories[0].key);
-    }
-  }
-
-  handleCategorySelect = (activeCategory: string) => {
-    this.setState({ activeCategory }, () => {
-      if (this.list.current) {
-        this.list.current.fetch();
-      }
-    });
-  };
-
-  fetch = (params: { page: number; limit: number }) => {
+  useAsyncEffect(async flag => {
     try {
-      return this.props.fetch({ ...params, activeCategory: this.state.activeCategory });
-    } finally {
-      if (this.state.loading === true && this.loadingView.current && this.loadingView.current.fadeOut) {
-        this.loadingView.current.fadeOut(600).then(() => {
-          this.setState({ loading: false });
-        });
+      const categories = await fetchCategories();
+
+      if (flag.cancelled) {
+        return;
       }
+
+      setCategories(categories);
+
+      if (categories.length > 0) {
+        setActiveCategory(categories[0].key);
+      }
+    } catch (err) {}
+  }, []);
+
+  useEffect(() => {
+    if (activeCategory && list.current) {
+      list.current.fetch();
+    }
+  }, [activeCategory]);
+
+  const handleCategorySelect = (activeCategory: string) => {
+    setActiveCategory(activeCategory);
+  };
+
+  const fetch = (params: { page: number; limit: number }) => {
+    try {
+      return fetchGoods({ ...params, activeCategory });
+    } finally {
+      setLoading(false);
     }
   };
 
-  ListEmptyComponent() {
-    return <NoData type='goods' text='加速备货中，敬请期待~' />;
-  }
+  const ListEmptyComponent = () => {
+    return <NoData text='加速备货中，敬请期待~' />;
+  };
 
-  renderItem = (props: ListRenderItemInfo<T>) => {
-    const { renderItem } = this.props;
-
+  const renderListItem = (props: ListRenderItemInfo<T>) => {
     if (renderItem) {
       return <View style={styles.itemWrapper}>{renderItem(props)}</View>;
     } else {
@@ -86,71 +70,33 @@ export default class GoodsList<T = Global.Item> extends PureComponent<Props<T>, 
     }
   };
 
-  render() {
-    const { categories, fetch, ...listProps } = this.props;
+  const { color } = useTheme();
 
-    return (
-      <View style={styles.container}>
-        <GoodsCategories
-          data={this.props.categories}
-          activeKey={this.state.activeCategory}
-          onPress={this.handleCategorySelect}
+  return (
+    <View style={[styles.container, { backgroundColor: color.foreground }]}>
+      <Spin loading={loading}>
+        <GoodsCategories data={categories} activeKey={activeCategory} onPress={handleCategorySelect} />
+        <ListView
+          {...restProps}
+          ref={list}
+          fetch={fetch}
+          renderItem={renderListItem}
+          ListEmptyComponent={ListEmptyComponent}
         />
-        <List<T>
-          {...listProps}
-          ref={this.list}
-          fetch={this.fetch}
-          keyExtractor={this.keyExtractor}
-          renderItem={this.renderItem}
-          ListEmptyComponent={this.ListEmptyComponent}
-        />
-        {this.state.loading && (
-          <Animatable.View ref={this.loadingView as any} style={styles.loadingWrapper}>
-            <SafeAreaView style={styles.loading}>
-              <Image source={require('@/assets/img/loading.gif')} style={styles.loadingImage} />
-              <Text size='normal' color='grey' style={styles.loadingText}>
-                正在努力加载中...
-              </Text>
-            </SafeAreaView>
-          </Animatable.View>
-        )}
-      </View>
-    );
-  }
+      </Spin>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#fff',
     overflow: 'hidden'
   },
   itemWrapper: {
     paddingVertical: scaleSize(20),
     paddingLeft: scaleSize(20),
     paddingRight: scaleSize(30)
-  },
-  loadingWrapper: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    zIndex: 2
-  },
-  loading: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff'
-  },
-  loadingImage: {
-    width: scaleSize(112),
-    height: scaleSize(260)
-  },
-  loadingText: {
-    marginTop: scaleSize(38)
   }
 });

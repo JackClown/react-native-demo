@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import ListItem, { ListItemProps } from './ListItem';
 import Text from './Text';
-import { primary_color } from '../config/theme';
+import { useTheme } from './Theme';
 
 function Item(props: ListItemProps) {
   const { title, extra, ...restProps } = props;
@@ -41,7 +41,10 @@ interface Props {
 
 export default function DatePickerItem(props: Props) {
   const { mode, title, value, onChange, required, ...restProps } = props;
-  let type = ''
+
+  const { color } = useTheme();
+
+  let type = '';
 
   switch (mode) {
     case 'date':
@@ -71,14 +74,13 @@ export default function DatePickerItem(props: Props) {
     <DatePicker
       styles={{
         actionText: {
-          color: primary_color
+          color: color.primary
         }
       }}
       mode={mode}
       value={value ? moment(value, type).toDate() : undefined}
       onChange={handleChange}
-      {...restProps}
-    >
+      {...restProps}>
       <Item title={title} required={required} />
     </DatePicker>
   );

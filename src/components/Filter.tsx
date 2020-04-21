@@ -12,7 +12,7 @@ type Value = ReactText | LabeledValue | LabeledValue[] | undefined;
 export interface Item<T extends State> {
   key: keyof T;
   label: string;
-  type: 'checkbox' | 'radio' | 'select' | 'multi-select';
+  type?: 'checkbox' | 'radio' | 'select' | 'multi-select';
   group: LabeledValue[] | ((state: T) => Promise<LabeledValue | LabeledValue[]>);
   render?: (state: T, onChange: (value: Value) => void) => ReactNode;
 }

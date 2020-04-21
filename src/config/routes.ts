@@ -17,7 +17,8 @@ export const Routes = {
     Avatar: 'demo/avatar',
     Filter: 'demo/filter',
     GoodsItem: 'demo/goods-item',
-    Button: 'demo/button'
+    Button: 'demo/button',
+    GoodsList: 'demo/goods-list'
   }
 } as const;
 
@@ -49,6 +50,7 @@ export type ParamList = {
   [Routes.Demo.Filter]: undefined;
   [Routes.Demo.GoodsItem]: undefined;
   [Routes.Demo.Button]: undefined;
+  [Routes.Demo.GoodsList]: undefined;
 };
 
 export type ScreenConfig = RouteConfig<ParamList, any, any, StackNavigationOptions, never>;

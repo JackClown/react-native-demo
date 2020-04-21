@@ -4,37 +4,21 @@ import { View, StyleSheet, ViewStyle, Image, ImageStyle } from 'react-native';
 import { scaleSize } from '@/utils/scale';
 import Text from './Text';
 
-const noGoods = require('@/assets/img/no-goods.png');
-const noSearchResults = require('@/assets/img/nobilldata.png');
-
 interface Props {
-  type: 'goods' | 'search';
   text: string;
 }
 
-export default function NoData({ type, text }: Props) {
-  let source;
-
-  switch (type) {
-    case 'goods':
-      source = noGoods;
-      break;
-    case 'search':
-    default:
-      source = noSearchResults;
-  }
-
+export default function NoData({ text }: Props) {
   return (
     <View style={styles.container}>
-      <Image source={source} style={styles.image} />
+      <Image source={require('@/assets/img/no-data.png')} style={styles.image} />
       <Text color='grey'>{text}</Text>
     </View>
   );
 }
 
 NoData.defaultProps = {
-  type: 'search',
-  text: '没有找到符合条件的结果~'
+  text: '暂无数据'
 };
 
 const styles = StyleSheet.create<{

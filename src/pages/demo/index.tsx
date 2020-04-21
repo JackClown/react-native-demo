@@ -10,6 +10,7 @@ import AvatarDemo from './Avatar';
 import FilterDemo from './Filter';
 import GoodsItem from './GoodsItem';
 import Button from './Button';
+import GoodsList from './GoodsList';
 
 const screens: ScreenConfig[] = [
   {
@@ -80,6 +81,13 @@ const screens: ScreenConfig[] = [
     component: Button,
     options: {
       title: 'Button'
+    }
+  },
+  {
+    name: Routes.Demo.GoodsList,
+    component: GoodsList,
+    options: {
+      title: 'GoodsList'
     }
   }
 ];
