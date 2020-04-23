@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, ReactText } from 'react';
 import {
   StyleSheet,
   View,
@@ -11,15 +11,12 @@ import {
 import { throttle } from 'lodash';
 
 import { scaleSize } from '@/utils/scale';
-import { Text } from '@/components';
+import Text from './Text';
 
-interface Props {
-  defaultTabIndex: number;
-  tabs: Array<{
-    name: string;
-    value: string;
-  }>;
-  onPress?: (actoin: { name: string; value: string }) => void;
+interface Props<T extends ReactText> {
+  defaultIndex: number;
+  tabs: LabeledValue<T>[];
+  onPress?: (actoin: LabeledValue<T>) => void;
   onPressIn?: (nextIndex: number) => boolean;
   styles?: {
     container?: StyleProp<ViewStyle>;
@@ -36,27 +33,9 @@ interface State {
   active: number;
 }
 
-export default class DateTab extends PureComponent<Props, State> {
+export default class Segment<T extends ReactText> extends PureComponent<Props<T>, State> {
   static defaultProps = {
-    defaultTabIndex: 0,
-    tabs: [
-      {
-        name: '日',
-        value: '日'
-      },
-      {
-        name: '周',
-        value: '周'
-      },
-      {
-        name: '月',
-        value: '月'
-      },
-      {
-        name: '自定义',
-        value: '自定义'
-      }
-    ]
+    defaultIndex: 0
   };
 
   public state: State = {
@@ -77,7 +56,7 @@ export default class DateTab extends PureComponent<Props, State> {
   private handleLayout = (index: number, e: LayoutChangeEvent) => {
     this.layouts[index] = e.nativeEvent.layout;
 
-    if (index === this.props.defaultTabIndex && this.state.active === -1) {
+    if (index === this.props.defaultIndex && this.state.active === -1) {
       this.handlePress(index, 0);
     }
   };
@@ -115,11 +94,13 @@ export default class DateTab extends PureComponent<Props, State> {
       this.animation = Animated.parallel([
         Animated.timing(x, {
           toValue: layout.x,
-          duration
+          duration,
+          useNativeDriver: false
         }),
         Animated.timing(width, {
           toValue: layout.width,
-          duration
+          duration,
+          useNativeDriver: false
         })
       ]);
 
@@ -140,14 +121,13 @@ export default class DateTab extends PureComponent<Props, State> {
   );
 
   public render() {
-    const { tabs } = this.props;
-    const stylesProp = this.props.styles;
+    const { tabs, styles: stylesProp } = this.props;
     const { x, active, width } = this.state;
 
     let container: StyleProp<ViewStyle> = styles.container;
     let indicator: StyleProp<ViewStyle> = styles.indicator;
     let tab: StyleProp<ViewStyle> = styles.tab;
-    let activeColor = '#398360';
+    let activeColor = '#333';
     let color = '#fff';
 
     if (stylesProp) {
@@ -183,7 +163,7 @@ export default class DateTab extends PureComponent<Props, State> {
               onLayout={e => this.handleLayout(index, e)}>
               <View style={tab}>
                 <Text size='h4' color={active === index ? activeColor : color}>
-                  {item.name}
+                  {item.label}
                 </Text>
               </View>
             </TouchableWithoutFeedback>
@@ -197,6 +177,7 @@ export default class DateTab extends PureComponent<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
+    width: 'auto',
     height: scaleSize(60),
     padding: scaleSize(5),
     borderRadius: scaleSize(30),

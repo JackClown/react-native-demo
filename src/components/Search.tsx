@@ -88,8 +88,14 @@ export default class Search<T = any> extends PureComponent<Props<T>, State> {
 
     return (
       <Page>
-        <SearchBar placeholder={placeholder} onChange={this.handleChange} autoFocus={autoFocus} right={right} selectTextOnFocus={selectTextOnFocus}/>
-        <List<T> {...restProps} ref={this.list} fetch={this.fetch} filter={this.handleFilter} extraData={extra} />
+        <SearchBar
+          placeholder={placeholder}
+          onChangeText={this.handleChange}
+          autoFocus={autoFocus}
+          extra={right}
+          selectTextOnFocus={selectTextOnFocus}
+        />
+        <List {...restProps} ref={this.list} fetch={this.fetch} filter={this.handleFilter} extraData={extra} />
       </Page>
     );
   }

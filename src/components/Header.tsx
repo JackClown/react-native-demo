@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     height: '100%',
-    ...screenOptions.headerLeftContainerStyle
+    ...(screenOptions.headerLeftContainerStyle as any)
   },
   title: {
     width: '100%',
@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  titleText: screenOptions.headerTitleStyle,
+  titleText: screenOptions.headerTitleStyle as any,
   right: {
     position: 'absolute',
     top: 0,
     right: 0,
     height: '100%',
     zIndex: 1,
-    ...screenOptions.headerRightContainerStyle
+    ...(screenOptions.headerRightContainerStyle as any)
   }
 });

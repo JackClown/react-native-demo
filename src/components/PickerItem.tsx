@@ -1,19 +1,16 @@
-import React, { PureComponent, ReactNode, ReactText } from 'react';
+import React, { ReactNode, ReactText } from 'react';
 import { Picker } from '@ant-design/react-native';
 
 import ListItem, { ListItemProps } from './ListItem';
 import Text from './Text';
-import { primary_color } from '../config/theme';
+import { useTheme } from './Theme';
 
-interface Props {
-  data: Array<{
-    label: string;
-    value: ReactText; //当为number，不可以为0
-  }>;
-  value?: ReactText;
+interface Props<T extends ReactText> {
   title: ReactNode;
+  data: LabeledValue<T>[];
+  value?: T;
   disabled?: boolean;
-  onChange: (value: ReactText) => void;
+  onChange: (value: T) => void;
   required?: boolean;
   format?: (labels: string[]) => any;
 }
@@ -41,41 +38,41 @@ function Item(props: ListItemProps & { disabled?: boolean }) {
   );
 }
 
-export default class PickerItem extends PureComponent<Props> {
-  handleChange = (value: ReactText[] | undefined) => {
+export default function PickerItem<T extends ReactText = ReactText>(props: Props<T>) {
+  const { title, value, onChange, required, data, ...restProps } = props;
+  let pickerValue: ReactText[];
+
+  if (!value) {
+    pickerValue = [];
+  } else {
+    pickerValue = [value];
+  }
+
+  const handleChange = (value: ReactText[] | undefined) => {
     if (value && value.length > 0) {
-      for (let item of this.props.data) {
+      for (let item of data) {
         if (item.value === value[0]) {
-          this.props.onChange(value[0]);
+          onChange(value[0] as T);
         }
       }
     }
   };
 
-  render() {
-    const { title, value, onChange, required, ...restProps } = this.props;
-    let pickerValue: ReactText[];
+  const { color } = useTheme();
 
-    if (!value) {
-      pickerValue = [];
-    } else {
-      pickerValue = [value];
-    }
-
-    return (
-      <Picker
-        styles={{
-          actionText: {
-            color: primary_color
-          }
-        }}
-        cols={1}
-        value={pickerValue}
-        onChange={this.handleChange}
-        {...restProps}
-      >
-        <Item title={title} required={required} disabled={restProps.disabled} />
-      </Picker>
-    );
-  }
+  return (
+    <Picker
+      styles={{
+        actionText: {
+          color: color.primary
+        }
+      }}
+      cols={1}
+      value={pickerValue}
+      onChange={handleChange}
+      data={data}
+      {...restProps}>
+      <Item title={title} required={required} disabled={restProps.disabled} />
+    </Picker>
+  );
 }

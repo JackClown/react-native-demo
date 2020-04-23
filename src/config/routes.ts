@@ -19,7 +19,8 @@ export const Routes = {
     GoodsItem: 'demo/goods-item',
     Button: 'demo/button',
     GoodsList: 'demo/goods-list',
-    SearchBar: 'demo/search-bar'
+    SearchBar: 'demo/search-bar',
+    Segment: 'demo/segment'
   }
 } as const;
 
@@ -53,6 +54,7 @@ export type ParamList = {
   [Routes.Demo.Button]: undefined;
   [Routes.Demo.GoodsList]: undefined;
   [Routes.Demo.SearchBar]: undefined;
+  [Routes.Demo.Segment]: undefined;
 };
 
 export type ScreenConfig = RouteConfig<ParamList, any, any, StackNavigationOptions, never>;
