@@ -7,10 +7,7 @@ import AnalyticsUtil from '@/utils/AnalyticsUtil';
 
 const USER_ID = 'USER_ID';
 
-function* login(action: {
-  type: string;
-  payload: { user: User; cb: (err?: Error) => void };
-}): Generator<any, any, any> {
+function* login(action: { type: string; payload: { user: User; cb: (err?: Error) => void } }) {
   const {
     payload: { user, cb }
   } = action;

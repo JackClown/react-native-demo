@@ -27,6 +27,7 @@ export default function Catelog(props: Props) {
           <ListItem title='CameraScanner' />
         </CameraScanner>
         <ListItem title='GoodsList' onPress={() => navigation.navigate(Routes.Demo.GoodsList)} arrow />
+        <ListItem title='SearchBar' onPress={() => navigation.navigate(Routes.Demo.SearchBar)} arrow />
       </List>
     </Page>
   );

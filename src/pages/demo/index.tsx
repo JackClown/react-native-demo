@@ -11,6 +11,7 @@ import FilterDemo from './Filter';
 import GoodsItem from './GoodsItem';
 import Button from './Button';
 import GoodsList from './GoodsList';
+import SearchBar from './SearchBar';
 
 const screens: ScreenConfig[] = [
   {
@@ -88,6 +89,13 @@ const screens: ScreenConfig[] = [
     component: GoodsList,
     options: {
       title: 'GoodsList'
+    }
+  },
+  {
+    name: Routes.Demo.SearchBar,
+    component: SearchBar,
+    options: {
+      title: 'SearchBar'
     }
   }
 ];

@@ -1,93 +1,65 @@
-import React, { ReactNode } from 'react';
-import {
-  View,
-  TextInput,
-  TextInputProps,
-  StyleSheet,
-  Platform,
-  TouchableOpacity,
-  StyleProp,
-  ViewStyle
-} from 'react-native';
+import React, { ReactNode, useState, useRef } from 'react';
+import { View, TextInput, TextInputProps, StyleSheet, TouchableOpacity, StyleProp, ViewStyle } from 'react-native';
 import Ionicon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {
-  whitespace,
-  whitespace_lg,
-  font_size_h1,
-  font_size_h4,
-  lighter_color,
-  whitespace_sm,
-  font_size_h2,
-  light_color,
-  grey_color
-} from '../config/theme';
-import Icon from './Icon';
+import { whitespace, whitespace_lg } from '@/config/theme';
 import { scaleSize } from '@/utils/scale';
-import WhiteSpace from './WhiteSpace';
+import Icon from './Icon';
 import { useTheme } from './Theme';
 
-interface Props extends Omit<TextInputProps, 'onChange'> {
+interface Props extends TextInputProps {
   style?: StyleProp<ViewStyle>;
-  right?: ReactNode;
-  onChange?: (value: string) => void;
+  extra?: ReactNode;
+  onChangeText?: (value: string) => void;
 }
 
-interface SearchProps extends Omit<Props, 'right'> {
-  type: 'light' | 'dark';
-}
+export function Search(props: TextInputProps) {
+  const { onChangeText, ...restProps } = props;
 
-export function Search(props: SearchProps) {
-  const { onChange, type, ...restProps } = props;
+  const { color, fontSize } = useTheme();
 
-  const { color } = useTheme();
+  const [visible, setVisible] = useState(false);
 
-  let containerStyle;
-  let inputStyle;
-  let iconColor;
-  let clearColor;
+  const input = useRef<TextInput>(null);
 
-  if (type === 'light') {
-    containerStyle = [styles.inputContainer, { backgroundColor: 'rgba(255,255,255,0.3)' }];
-    inputStyle = [styles.input, { color: '#fff' }];
-    iconColor = '#fff';
-    clearColor = '#fff';
-  } else {
-    containerStyle = [styles.inputContainer, { backgroundColor: color.foreground }];
-    inputStyle = [styles.input, { backgroundColor: color.foreground }];
-    iconColor = grey_color;
-    clearColor = lighter_color;
-  }
+  const handleChange = (value: string) => {
+    setVisible(!!value.length);
+
+    if (onChangeText) {
+      onChangeText(value);
+    }
+  };
+
+  const handleClear = () => {
+    input.current?.clear();
+    setVisible(false);
+  };
 
   return (
-    <View style={containerStyle}>
-      <Icon name="search" size={font_size_h1} color={iconColor} />
-      <WhiteSpace type="vertical" />
+    <View style={[styles.inputContainer, { backgroundColor: color.foreground }]}>
+      <Icon name='search' size={fontSize.h1} color={color.grey} />
       <TextInput
-        returnKeyType="done"
-        onChangeText={onChange}
-        style={inputStyle}
-        placeholderTextColor={light_color}
-        clearButtonMode={restProps.value ? 'always' : 'while-editing'}
+        returnKeyType='done'
+        onChangeText={handleChange}
+        style={[styles.input, { backgroundColor: color.foreground }]}
+        placeholderTextColor={color.light}
+        clearButtonMode='never'
         {...restProps}
+        ref={input}
       />
-      {Platform.OS === 'android' && restProps.value ? (
+      {visible && (
         <View style={styles.clearWrapper}>
-          <TouchableOpacity onPress={onChange ? () => onChange('') : undefined} style={styles.clear}>
-            <Ionicon name="close-circle" size={font_size_h2} color={clearColor} />
+          <TouchableOpacity onPress={handleClear} style={styles.clear}>
+            <Ionicon name='close-circle' size={fontSize.h2} color={color.lighter} />
           </TouchableOpacity>
         </View>
-      ) : null}
+      )}
     </View>
   );
 }
 
-Search.defaultProps = {
-  type: 'dark'
-};
-
 export default function SearchBar(props: Props) {
-  const { right, style, ...restProps } = props;
+  const { extra, style, ...restProps } = props;
 
   const { color } = useTheme();
 
@@ -100,7 +72,7 @@ export default function SearchBar(props: Props) {
   return (
     <View style={containerStyle}>
       <Search {...restProps} />
-      {right && <View style={styles.right}>{right}</View>}
+      {extra && <View style={styles.extra}>{extra}</View>}
     </View>
   );
 }
@@ -119,30 +91,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: scaleSize(60),
-    paddingRight: whitespace,
+    paddingRight: scaleSize(30),
     paddingLeft: scaleSize(10),
-    borderRadius: whitespace_lg
+    borderRadius: scaleSize(30)
   },
   input: {
     flex: 1,
     height: '100%',
+    marginLeft: whitespace,
     paddingTop: 0,
-    paddingBottom: 0,
-    fontSize: font_size_h4
+    paddingBottom: 0
   },
-  right: {
+  extra: {
     marginLeft: whitespace_lg
   },
   clearWrapper: {
-    marginRight: whitespace_sm,
     width: scaleSize(28),
     height: scaleSize(28),
     justifyContent: 'center',
     alignItems: 'center'
   },
   clear: {
-    width: scaleSize(44),
-    height: scaleSize(44),
+    width: scaleSize(60),
+    height: scaleSize(60),
     justifyContent: 'center',
     alignItems: 'center'
   }
