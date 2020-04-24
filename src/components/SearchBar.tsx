@@ -11,10 +11,11 @@ interface Props extends TextInputProps {
   style?: StyleProp<ViewStyle>;
   extra?: ReactNode;
   onChangeText?: (value: string) => void;
+  changeOnClear?: boolean;
 }
 
-export function Search(props: TextInputProps) {
-  const { onChangeText, ...restProps } = props;
+export function Search(props: Omit<Props, 'extra'>) {
+  const { changeOnClear, onChangeText, ...restProps } = props;
 
   const { color, fontSize } = useTheme();
 
@@ -33,6 +34,10 @@ export function Search(props: TextInputProps) {
   const handleClear = () => {
     input.current?.clear();
     setVisible(false);
+
+    if (changeOnClear && onChangeText) {
+      onChangeText('');
+    }
   };
 
   return (

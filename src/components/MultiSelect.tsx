@@ -3,7 +3,7 @@ import { FlatList, TouchableWithoutFeedback } from 'react-native';
 import { Map } from 'immutable';
 import { debounce } from 'lodash';
 import { Flex } from '@ant-design/react-native';
-import {  NavigationProp } from '@react-navigation/native';
+import { NavigationProp } from '@react-navigation/native';
 
 import { useAsyncEffect } from '@/utils/hooks';
 import Page from './Page';
@@ -14,6 +14,7 @@ import WhiteSpace from './WhiteSpace';
 import Text from './Text';
 import SubmitFooter from './SubmitFooter';
 import Modal from './Modal';
+import styles from '@/config/styles';
 
 interface Props<T> {
   onChange: (value: T[]) => void;
@@ -26,25 +27,12 @@ interface Props<T> {
 }
 
 export default function MultiSelect<T>(props: Props<T>) {
-  const {
-    onChange,
-    keyExtractor,
-    value,
-    filter,
-    data,
-    labelExtractor,
-    placeholder
-  } = props;
+  const { onChange, keyExtractor, value, filter, data, labelExtractor, placeholder } = props;
 
   const [keywords, setKeywords] = useState('');
-  const [checked, setChecked] = useState(
-    Map(value.map(item => [keyExtractor(item), item]))
-  );
+  const [checked, setChecked] = useState(Map(value.map(item => [keyExtractor(item), item])));
 
-  const list = useMemo(() => data.filter(item => filter(item, keywords)), [
-    data,
-    keywords
-  ]);
+  const list = useMemo(() => data.filter(item => filter(item, keywords)), [data, keywords]);
   const isSelectAll = useMemo(() => {
     let flag = true;
 
@@ -105,9 +93,9 @@ export default function MultiSelect<T>(props: Props<T>) {
 
   return (
     <Page>
-      <SearchBar onChangeText={changeKeywords} placeholder={placeholder} />
+      <SearchBar onChangeText={changeKeywords} placeholder={placeholder} changeOnClear />
       <FlatList
-        contentContainerStyle={{ paddingBottom: 34 }}
+        contentContainerStyle={styles.list}
         data={list}
         keyExtractor={extractor}
         renderItem={renderItem}
@@ -116,21 +104,21 @@ export default function MultiSelect<T>(props: Props<T>) {
       <SubmitFooter
         left={
           <TouchableWithoutFeedback onPress={selectAll}>
-            <Flex align="center">
+            <Flex align='center'>
               <Check checked={isSelectAll} />
-              <WhiteSpace type="vertical" />
-              <Text size="h3" color="dark">
+              <WhiteSpace type='vertical' />
+              <Text size='h3' color='dark'>
                 全选
               </Text>
             </Flex>
           </TouchableWithoutFeedback>
         }
         center={
-          <Text size="h3" color="dark">
+          <Text size='h3' color='dark'>
             已选：{checked.size}
           </Text>
         }
-        right="确定"
+        right='确定'
         onSubmit={confirm}
       />
     </Page>

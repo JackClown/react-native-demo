@@ -13,6 +13,7 @@ import Footer from './Footer';
 import Card from './Card';
 import Button from './Button';
 import Text from './Text';
+import styles from '@/config/styles';
 
 interface Props<T> {
   onChange: (value: T) => void;
@@ -49,7 +50,8 @@ export default function Select<T>(props: Props<T>) {
     return (
       <ListItem
         extra={checked !== undefined && keyExtractor(checked) === key ? <Check checked /> : null}
-        onPress={() => handleCheck(item)}>
+        onPress={() => handleCheck(item)}
+      >
         <Text size='h3' color='dark'>
           {labelExtractor(item)}
         </Text>
@@ -67,9 +69,9 @@ export default function Select<T>(props: Props<T>) {
 
   return (
     <Page>
-      <SearchBar onChangeText={changeKeywords} placeholder={placeholder} />
+      <SearchBar onChangeText={changeKeywords} placeholder={placeholder} changeOnClear />
       <FlatList
-        contentContainerStyle={{ paddingBottom: 34 }}
+        contentContainerStyle={styles.list}
         data={list}
         keyExtractor={extractor}
         renderItem={renderItem}
