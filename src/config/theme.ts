@@ -35,5 +35,3 @@ export const whitespace_xs = scaleSize(10);
 export const winblank = whitespace_lg;
 
 export const border_radius = scaleSize(8);
-
-export const placeholder_text = '输入商品名称、代码、条码、助记码查询';
