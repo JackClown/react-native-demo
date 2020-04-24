@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import { ScrollView, Alert } from 'react-native';
 
-import { Page, List, ListItem, Text, SwitchItem, PickerItem } from '@/components';
+import {
+  Page,
+  List,
+  ListItem,
+  Text,
+  SwitchItem,
+  PickerItem,
+  NumberInputItem,
+  InputItem,
+  DatePickerItem
+} from '@/components';
+import styles from '@/config/styles';
 
 export default function ListDemo() {
   const [flag, setFlag] = useState(true);
@@ -21,7 +32,7 @@ export default function ListDemo() {
 
   return (
     <Page>
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.list}>
         <List renderHeader='Basic'>
           <ListItem title='Require' required />
           <ListItem title='Arrow' arrow onPress={() => Alert.alert('提示', 'hello world')} />
@@ -61,6 +72,13 @@ export default function ListDemo() {
         </List>
         <List renderHeader='Picker'>
           <PickerItem title='Picker' value={picker} data={pickers} onChange={setPicker} />
+        </List>
+        <List renderHeader='Input'>
+          <NumberInputItem title='NumberInput' placeholder='只能输入数字' selectTextOnFocus />
+          <InputItem title='InputItem' placeholder='输入' selectTextOnFocus />
+        </List>
+        <List renderHeader='DatePicker'>
+          <DatePickerItem title='DatePicker' value='2020-04-24' onChange={value => console.log(value)} mode='date' />
         </List>
       </ScrollView>
     </Page>

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { KeyboardAvoidingView, Platform, StyleProp, ViewStyle } from 'react-native';
 
-import styles from '../config/styles';
+import { useTheme } from './Theme';
 
 interface Props {
   children?: ReactNode;
@@ -9,12 +9,14 @@ interface Props {
 }
 
 export default function Form(props: Props) {
+  const { children, style } = props;
+  const { color } = useTheme();
+
   return (
     <KeyboardAvoidingView
-      style={[styles.container, props.style]}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
-      {props.children}
+      style={[{ backgroundColor: color.background, flex: 1 }, style]}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      {children}
     </KeyboardAvoidingView>
   );
 }

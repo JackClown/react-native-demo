@@ -105,7 +105,7 @@ export default function MultiSelect<T>(props: Props<T>) {
 
   return (
     <Page>
-      <SearchBar onChange={changeKeywords} placeholder={placeholder} />
+      <SearchBar onChangeText={changeKeywords} placeholder={placeholder} />
       <FlatList
         contentContainerStyle={{ paddingBottom: 34 }}
         data={list}

@@ -50,7 +50,7 @@ export default function Select<T>(props: Props<T>) {
       <ListItem
         extra={checked !== undefined && keyExtractor(checked) === key ? <Check checked /> : null}
         onPress={() => handleCheck(item)}>
-        <Text size="h3" color="dark">
+        <Text size='h3' color='dark'>
           {labelExtractor(item)}
         </Text>
       </ListItem>
@@ -67,7 +67,7 @@ export default function Select<T>(props: Props<T>) {
 
   return (
     <Page>
-      <SearchBar onChange={changeKeywords} placeholder={placeholder} />
+      <SearchBar onChangeText={changeKeywords} placeholder={placeholder} />
       <FlatList
         contentContainerStyle={{ paddingBottom: 34 }}
         data={list}
@@ -77,7 +77,7 @@ export default function Select<T>(props: Props<T>) {
       />
       <Footer>
         <Card>
-          <Button type="primary" onPress={confirm} disabled={checked === undefined}>
+          <Button type='primary' onPress={confirm} disabled={checked === undefined}>
             确定
           </Button>
         </Card>

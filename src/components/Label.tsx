@@ -1,9 +1,9 @@
 import React, { ReactText } from 'react';
 import { View, Image, TextProps, StyleSheet } from 'react-native';
 
-import Text from './Text';
 import { scaleSize } from '@/utils/scale';
-import { font_size_h4 } from '../config/theme';
+import Text from './Text';
+import { useTheme } from './Theme';
 
 interface LabelProps extends TextProps {
   type: string;
@@ -36,11 +36,13 @@ export default function Label(props: LabelProps) {
     default:
   }
 
+  const { fontSize } = useTheme();
+
   return (
     <View style={styles.container}>
       <Image source={source} style={styles.image} />
       <View style={styles.label}>
-        <Text {...restProps} color='#fff' size={font_size_h4} />
+        <Text {...restProps} color='#fff' size={fontSize.h4} />
       </View>
     </View>
   );

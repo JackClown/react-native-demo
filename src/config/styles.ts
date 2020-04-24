@@ -13,6 +13,9 @@ const styles = StyleSheet.create({
   column: {
     flex: 1,
     marginHorizontal: whitespace / 2
+  },
+  list: {
+    paddingBottom: 34
   }
 });
 

@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
@@ -15,19 +15,12 @@ import {
 import { Flex } from '@ant-design/react-native';
 import ModalView from '@ant-design/react-native/lib/modal/ModalView';
 
-import {
-  font_size_h2,
-  whitespace,
-  whitespace_lg,
-  light_color,
-  font_size_h3,
-  primary_color,
-  dark_color
-} from '@/config/theme';
+import { whitespace, whitespace_lg } from '@/config/theme';
+import { scaleSize } from '@/utils/scale';
 import Icon from './Icon';
 import Text from './Text';
-import { scaleSize } from '@/utils/scale';
 import { KEYBOARD_WILL_SHOW } from './Footer';
+import { ThemeConsumer } from './Theme';
 
 interface Props {
   value: string;
@@ -40,12 +33,12 @@ interface State {
 }
 
 export default class EditNotes extends Component<Props> {
-  state: State = {
+  public state: State = {
     value: '',
     visible: false
   };
 
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
+  public shouldComponentUpdate(nextProps: Props, nextState: State) {
     if (nextState.value !== this.state.value || nextState.visible !== this.state.visible) {
       return true;
     } else {
@@ -53,7 +46,7 @@ export default class EditNotes extends Component<Props> {
     }
   }
 
-  handleOpen = () => {
+  private handleOpen = () => {
     DeviceEventEmitter.emit(KEYBOARD_WILL_SHOW);
 
     this.setState({
@@ -62,19 +55,19 @@ export default class EditNotes extends Component<Props> {
     });
   };
 
-  handleClose = () => {
+  private handleClose = () => {
     this.setState({
       visible: false
     });
   };
 
-  handleChange = (value: string) => {
+  private handleChange = (value: string) => {
     this.setState({
       value
     });
   };
 
-  handleConfirm = () => {
+  private handleConfirm = () => {
     if (this.state.value !== this.props.value) {
       this.props.onChange(this.state.value.replace(/\n$/, ''));
     }
@@ -82,7 +75,7 @@ export default class EditNotes extends Component<Props> {
     this.setState({ visible: false });
   };
 
-  handleKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+  private handleKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
     const key = e.nativeEvent.key;
 
     if (key === 'Enter') {
@@ -90,64 +83,66 @@ export default class EditNotes extends Component<Props> {
     }
   };
 
-  render() {
+  public render() {
     const { value, visible } = this.state;
 
     return (
-      <Fragment>
-        <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.btn} onPress={this.handleOpen}>
-            <Icon name='message' size={font_size_h2} color='#838E8F' />
-          </TouchableOpacity>
-        </View>
-        <ModalView
-          animationType='slide-up'
-          maskClosable
-          wrapStyle={styles.container}
-          visible={visible}
-          onClose={this.handleClose}
-          style={styles.content}
-        >
-          <TouchableWithoutFeedback onPress={this.handleClose}>
-            <View style={styles.mask} />
-          </TouchableWithoutFeedback>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            keyboardVerticalOffset={Platform.select({
-              ios: 0,
-              android: StatusBar.currentHeight
-            })}
-          >
-            <View style={styles.safeView}>
-              <Flex style={styles.wrapper} align='start'>
-                <View style={styles.inputWrapper}>
-                  <TextInput
-                    value={value}
-                    style={styles.input}
-                    multiline
-                    onKeyPress={this.handleKeyPress}
-                    autoFocus
-                    placeholder='输入备注内容'
-                    placeholderTextColor={light_color}
-                    underlineColorAndroid='transparent'
-                    returnKeyType='done'
-                    returnKeyLabel='确定'
-                    onChangeText={this.handleChange}
-                    maxLength={125}
-                  />
-                </View>
-                <TouchableOpacity onPress={this.handleConfirm}>
-                  <View style={styles.button}>
-                    <Text size='h3' color='#fff'>
-                      确定
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </Flex>
+      <ThemeConsumer>
+        {({ color, fontSize }) => (
+          <>
+            <View style={styles.btnContainer}>
+              <TouchableOpacity style={styles.btn} onPress={this.handleOpen}>
+                <Icon name='message' size={fontSize.h2} color={color.grey} />
+              </TouchableOpacity>
             </View>
-          </KeyboardAvoidingView>
-        </ModalView>
-      </Fragment>
+            <ModalView
+              animationType='fade'
+              maskClosable
+              wrapStyle={styles.container}
+              style={styles.content}
+              visible={visible}
+              onClose={this.handleClose}
+            >
+              <TouchableWithoutFeedback onPress={this.handleClose}>
+                <View style={styles.mask} />
+              </TouchableWithoutFeedback>
+              <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                keyboardVerticalOffset={Platform.select({
+                  ios: 0,
+                  android: StatusBar.currentHeight
+                })}
+              >
+                <Flex style={[styles.wrapper, { backgroundColor: color.foreground }]} align='start'>
+                  <View style={[styles.inputWrapper, { backgroundColor: color.background }]}>
+                    <TextInput
+                      value={value}
+                      style={[styles.input, { color: color.dark, fontSize: fontSize.h3 }]}
+                      multiline
+                      onKeyPress={this.handleKeyPress}
+                      autoFocus
+                      placeholder='输入备注内容'
+                      placeholderTextColor={color.light}
+                      underlineColorAndroid='transparent'
+                      returnKeyType='done'
+                      returnKeyLabel='确定'
+                      onChangeText={this.handleChange}
+                      maxLength={125}
+                    />
+                  </View>
+                  <TouchableOpacity onPress={this.handleConfirm}>
+                    <View style={[styles.button, { backgroundColor: color.primary }]}>
+                      <Text size='h3' color='#fff'>
+                        确定
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </Flex>
+              </KeyboardAvoidingView>
+            </ModalView>
+          </>
+        )}
+      </ThemeConsumer>
     );
   }
 }
@@ -173,9 +168,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     backgroundColor: 'transparent'
   },
-  safeView: {
-    backgroundColor: '#fff'
-  },
   wrapper: {
     paddingVertical: whitespace,
     paddingHorizontal: whitespace_lg
@@ -193,7 +185,6 @@ const styles = StyleSheet.create({
     minHeight: scaleSize(74),
     marginRight: whitespace,
     paddingHorizontal: whitespace,
-    backgroundColor: '#F4F4F4',
     borderRadius: scaleSize(37)
   },
   input: {
@@ -201,9 +192,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 0,
     margin: 0,
-    borderWidth: 0,
-    fontSize: font_size_h3,
-    color: dark_color
+    borderWidth: 0
   },
   button: {
     justifyContent: 'center',
@@ -211,7 +200,6 @@ const styles = StyleSheet.create({
     width: scaleSize(110),
     height: scaleSize(74),
     borderRadius: scaleSize(37),
-    paddingVertical: scaleSize(24),
-    backgroundColor: primary_color
+    paddingVertical: scaleSize(24)
   }
 });
