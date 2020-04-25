@@ -49,7 +49,7 @@ export default class Popover extends PureComponent<Props, State> {
     };
   }
 
-  static Item = function(props: ItemProps) {
+  static Item = function (props: ItemProps) {
     return (
       <Consumer>
         {({ close }) => {

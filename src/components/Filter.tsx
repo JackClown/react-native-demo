@@ -72,7 +72,7 @@ export default function Filter<T extends State>(props: Props<T>) {
     } else {
       return value;
     }
-  }, [defaultValue]);
+  }, [defaultValue, value]);
 
   const [state, setState] = useState(value);
 
@@ -180,7 +180,9 @@ export default function Filter<T extends State>(props: Props<T>) {
 
         return (
           <View style={styles.filterBlock} key={item.key as string}>
-            <Text size='h3' color='dark'>{item.label}</Text>
+            <Text size='h3' color='dark'>
+              {item.label}
+            </Text>
             {elm}
           </View>
         );

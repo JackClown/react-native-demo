@@ -17,7 +17,10 @@ function createInputItem<T extends NumberInputProps | TextInputProps>(Input: Com
   return function (props: T & ListItemProps) {
     const { title, extra, style, styles, required, ...rest } = props;
 
-    const { color, fontSize: { h3 } } = useTheme();
+    const {
+      color,
+      fontSize: { h3 }
+    } = useTheme();
 
     let inputStyle: StyleProp<TextStyle> = [inputStyles.input, { color: color.dark, fontSize: h3 }, style];
     let itemStyles: ListItemProps['styles'] = listItemStyles;
@@ -35,8 +38,8 @@ function createInputItem<T extends NumberInputProps | TextInputProps>(Input: Com
         <Input
           style={inputStyle}
           placeholderTextColor={color.light}
-          returnKeyType="done"
-          underlineColorAndroid="transparent"
+          returnKeyType='done'
+          underlineColorAndroid='transparent'
           {...(rest as any)}
         />
       </ListItem>

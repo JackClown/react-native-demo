@@ -160,7 +160,8 @@ export default class Segment<T extends ReactText> extends PureComponent<Props<T>
             <TouchableWithoutFeedback
               key={item.value}
               onPress={() => this.handlePress(index)}
-              onLayout={e => this.handleLayout(index, e)}>
+              onLayout={e => this.handleLayout(index, e)}
+            >
               <View style={tab}>
                 <Text size='h4' color={active === index ? activeColor : color}>
                   {item.label}

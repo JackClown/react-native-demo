@@ -102,7 +102,8 @@ class Modal extends PureComponent<Props, State> {
         animateAppear={true}
         wrapStyle={styles.container}
         style={styles.outWrapper}
-        onClose={this.onClose}>
+        onClose={this.onClose}
+      >
         <View style={[styles.wrapper]}>
           <Image style={styles.type} source={avatar} />
           <View style={[styles.innerContainer, { backgroundColor: color.foreground }]}>
@@ -273,7 +274,8 @@ class PromptModal extends PureComponent<PromptProps> {
               onSubmitEditing={this.handleSubmit}
             />
           </KeyboardAvoidingView>
-        }></Modal>
+        }
+      />
     );
   }
 }

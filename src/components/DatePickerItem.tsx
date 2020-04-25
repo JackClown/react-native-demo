@@ -80,7 +80,8 @@ export default function DatePickerItem(props: Props) {
       mode={mode}
       value={value ? moment(value, type).toDate() : undefined}
       onChange={handleChange}
-      {...restProps}>
+      {...restProps}
+    >
       <Item title={title} required={required} />
     </DatePicker>
   );

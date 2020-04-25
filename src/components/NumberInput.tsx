@@ -12,10 +12,16 @@ export interface NumberInputProps extends Omit<TextInputProps, 'value' | 'onChan
 
 export default function NumberInput(props: NumberInputProps) {
   const { precision, inputRef, value, onChangeText, onBlur, ...restProps } = props;
-  const ref = inputRef === undefined ? useRef(null) : inputRef;
+
+  let ref = useRef<TextInput>(null);
+
+  if (inputRef !== undefined) {
+    ref = inputRef;
+  }
 
   const text = value === undefined ? '' : round(value, precision).toString();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const defaultValue = useMemo(() => text, []);
 
   const handleChange = (value: string) => {

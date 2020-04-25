@@ -17,12 +17,7 @@ export default function Tabs(props: Props) {
       const { tabs, activeTab, goToTab } = props;
 
       return (
-        <TabBar
-          tabs={tabs}
-          activeTab={activeTab}
-          onChange={(tab, index) => goToTab(index)}
-          scrollable={scrollable}
-        />
+        <TabBar tabs={tabs} activeTab={activeTab} onChange={(tab, index) => goToTab(index)} scrollable={scrollable} />
       );
     },
     [scrollable]

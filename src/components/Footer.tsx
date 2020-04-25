@@ -46,7 +46,8 @@ export default function Footer(props: Props) {
         backgroundColor: color.foreground,
         borderTopColor: color.line,
         borderTopWidth: StyleSheet.hairlineWidth
-      }}>
+      }}
+    >
       {children}
     </SafeAreaView>
   ) : null;

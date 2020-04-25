@@ -60,20 +60,21 @@ export default function ListItem({
       onLongPress={onLongPress}
       onPressOut={onPressOut}
       underlayColor={color.background}
-      style={[styles.wrapper, { backgroundColor: color.foreground }]}>
+      style={[styles.wrapper, { backgroundColor: color.foreground }]}
+    >
       <View style={[styles.container, { borderBottomColor: color.line }]}>
         <View style={contentStyle}>
           {title ? (
             <View style={titleStyle}>
               {typeof title === 'string' || typeof title === 'number' ? (
-                <Text size="h3" color="dark">
+                <Text size='h3' color='dark'>
                   {title}
                 </Text>
               ) : (
                 title
               )}
               {required && (
-                <Text color="error" fontWeight="bold">
+                <Text color='error' fontWeight='bold'>
                   *
                 </Text>
               )}
@@ -83,7 +84,7 @@ export default function ListItem({
           {extra !== undefined ? (
             <View style={styles.extra}>
               {typeof extra === 'string' || typeof extra === 'number' ? (
-                <Text size="h3" color={arrow ? 'dark' : 'grey'}>
+                <Text size='h3' color={arrow ? 'dark' : 'grey'}>
                   {extra}
                 </Text>
               ) : (
@@ -92,7 +93,7 @@ export default function ListItem({
             </View>
           ) : null}
         </View>
-        {arrow && <Icon style={styles.arrow} name="arrow-right" size={fontSize.md} color={color.grey} />}
+        {arrow && <Icon style={styles.arrow} name='arrow-right' size={fontSize.md} color={color.grey} />}
       </View>
     </TouchableHighlight>
   );

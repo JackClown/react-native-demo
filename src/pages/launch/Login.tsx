@@ -82,7 +82,8 @@ export default function Login(props: Props) {
             onPress={handleSubmit}
             type='primary'
             size='lg'
-            disabled={bookCode === '' || userCode === '' || userPsw === ''}>
+            disabled={bookCode === '' || userCode === '' || userPsw === ''}
+          >
             登录
           </Button>
         </View>

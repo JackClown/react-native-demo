@@ -1,11 +1,5 @@
 import React, { PureComponent, createRef } from 'react';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  TextInputProps,
-  TouchableWithoutFeedback
-} from 'react-native';
+import { StyleSheet, View, TextInput, TextInputProps, TouchableWithoutFeedback } from 'react-native';
 
 import Text from './Text';
 import { font_size, dark_color } from '../config/theme';

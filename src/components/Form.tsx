@@ -15,7 +15,8 @@ export default function Form(props: Props) {
   return (
     <KeyboardAvoidingView
       style={[{ backgroundColor: color.background, flex: 1 }, style]}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       {children}
     </KeyboardAvoidingView>
   );

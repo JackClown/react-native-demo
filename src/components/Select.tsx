@@ -31,7 +31,7 @@ export default function Select<T>(props: Props<T>) {
   const [keywords, setKeywords] = useState('');
   const [checked, setChecked] = useState(value);
 
-  const list = useMemo(() => data.filter(item => filter(item, keywords)), [data, keywords]);
+  const list = useMemo(() => data.filter(item => filter(item, keywords)), [data, keywords, filter]);
 
   const changeKeywords = useCallback(
     debounce((keywords: string) => {

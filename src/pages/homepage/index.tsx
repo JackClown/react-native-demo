@@ -35,7 +35,8 @@ function Index() {
           labelStyle: {
             fontSize: fontSize.md
           }
-        }}>
+        }}
+      >
         <Tab.Screen
           name='home'
           component={Home}

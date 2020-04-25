@@ -25,7 +25,7 @@ export default function SubmitFooter(props: Props) {
   const { color } = useTheme();
 
   const btnText = (
-    <Text size="h3" color="#fff">
+    <Text size='h3' color='#fff'>
       {right === undefined ? '提交' : right}
     </Text>
   );
@@ -37,10 +37,10 @@ export default function SubmitFooter(props: Props) {
           <View style={style.total}>
             {left === undefined ? (
               <Fragment>
-                <Text numberOfLines={1} size="h4" color="dark">
+                <Text numberOfLines={1} size='h4' color='dark'>
                   品项：{itemCount}
                 </Text>
-                <Text numberOfLines={1} size="h4" color="dark">
+                <Text numberOfLines={1} size='h4' color='dark'>
                   数量：{totalCount}
                 </Text>
               </Fragment>
@@ -51,13 +51,13 @@ export default function SubmitFooter(props: Props) {
           <View style={style.price}>
             {center === undefined ? (
               <Text numberOfLines={1}>
-                <Text size="h3" color="dark">
+                <Text size='h3' color='dark'>
                   总额：
                 </Text>
-                <Text color="error" fontWeight="bold" size="normal">
+                <Text color='error' fontWeight='bold' size='normal'>
                   ¥
                 </Text>
-                <Text color="error" fontWeight="bold" size="h1">
+                <Text color='error' fontWeight='bold' size='h1'>
                   {totalPrice}
                 </Text>
               </Text>

@@ -71,7 +71,8 @@ export default function PickerItem<T extends ReactText = ReactText>(props: Props
       value={pickerValue}
       onChange={handleChange}
       data={data}
-      {...restProps}>
+      {...restProps}
+    >
       <Item title={title} required={required} disabled={restProps.disabled} />
     </Picker>
   );

@@ -97,21 +97,22 @@ export default class CameraScanner extends Component<Props, State> {
           })
         ) : (
           <TouchableOpacity onPress={this.openModal} style={[styles.iconContainer, style]}>
-            <Icon name="scan" size={scaleFont(40)} color={color} />
+            <Icon name='scan' size={scaleFont(40)} color={color} />
           </TouchableOpacity>
         )}
-        <Modal animationType="slide" visible={this.state.visible} onRequestClose={this.closeModal}>
+        <Modal animationType='slide' visible={this.state.visible} onRequestClose={this.closeModal}>
           <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="light-content" />
+            <StatusBar barStyle='light-content' />
             <RNCamera
               style={styles.preview}
               type={RNCamera.Constants.Type.back}
-              flashMode="auto"
-              autoFocus="on"
+              flashMode='auto'
+              autoFocus='on'
               captureAudio={false}
               permissionDialogTitle={'获取相机权限'}
               permissionDialogMessage={'需要您的权限来访问相机'}
-              onBarCodeRead={this.handleBarCodeRead}>
+              onBarCodeRead={this.handleBarCodeRead}
+            >
               <View style={styles.scanContainer}>
                 <View style={styles.maskTop} />
                 <View style={styles.containerCenter}>

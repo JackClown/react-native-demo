@@ -22,14 +22,14 @@ export default function GoodsItem(props: Props) {
       <View style={style.content}>
         <View style={style.header}>
           <View>
-            <Text size="h3" color="dark" fontWeight="bold" numberOfLines={1}>
+            <Text size='h3' color='dark' fontWeight='bold' numberOfLines={1}>
               {name}
             </Text>
           </View>
-          <View style={style.headerRight}></View>
+          <View style={style.headerRight} />
         </View>
         {typeof spec === 'string' ? (
-          <Text numberOfLines={1} size="sm" color="grey">
+          <Text numberOfLines={1} size='sm' color='grey'>
             规格：{spec}
           </Text>
         ) : (
@@ -71,5 +71,5 @@ const style = StyleSheet.create({
   },
   itemImage: {
     marginRight: scaleSize(20)
-  },
+  }
 });

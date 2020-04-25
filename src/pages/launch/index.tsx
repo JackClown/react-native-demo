@@ -26,7 +26,7 @@ function Launch(props: Props) {
   const [progress, setProgress] = useState('');
 
   const launch = async (token: string) => {
-    request.defaults.headers.common['Authorization'] = token;
+    request.defaults.headers.common.Authorization = token;
 
     const user = await getCurrentUser();
 

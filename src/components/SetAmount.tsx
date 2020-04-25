@@ -10,7 +10,6 @@ import {
   TextInput
 } from 'react-native';
 import _round from 'lodash/round';
-import _debounce from 'lodash/debounce';
 
 import Text from './Text';
 import NumberInput from './NumberInput';

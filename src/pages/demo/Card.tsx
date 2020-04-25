@@ -23,7 +23,7 @@ export default function CardDemo() {
         </Text>
       </Card>
       <WhiteSpace />
-      <Card footer='Footer'> 
+      <Card footer='Footer'>
         <Text size='h3' color='dark'>
           Content
         </Text>

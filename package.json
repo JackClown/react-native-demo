@@ -7,9 +7,21 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint .",
+    "lint": "eslint **/*.ts **/*.tsx",
+    "lint-staged": "lint-staged",
     "mock": "node ./mocks/index",
     "postinstall": "./postinstall.sh"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx}": [
+      "prettier --write",
+      "npm run lint"
+    ]
   },
   "dependencies": {
     "@ant-design/react-native": "^3.3.0",
@@ -55,7 +67,9 @@
     "babel-plugin-import": "^1.13.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "eslint": "^6.8.0",
+    "husky": "^4.2.5",
     "jest": "^25.2.3",
+    "lint-staged": "^10.1.7",
     "metro-react-native-babel-preset": "^0.59.0",
     "mockserver": "^3.1.1",
     "react-test-renderer": "16.11.0"

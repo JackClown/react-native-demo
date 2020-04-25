@@ -1,10 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { BackHandler } from 'react-native';
-import { NavigationProp } from '@react-navigation/native';
 
 import store, { persistor } from '@/store';
 import Modal from '@/components/Modal';
-import { ParamList } from '@/config/routes';
+import { useSelector } from 'react-redux';
 
 export function useInterval(callback: () => void, delay: number | null) {
   const savedCallback = useRef(callback);
@@ -63,18 +62,10 @@ export function usePersistAlert(key: keyof ReduxState, check: (state: any) => bo
   }, []);
 }
 
-export function useRefresh(navigation: NavigationProp<ParamList>, callback: () => void) {
-  useEffect(() => {
-    const remove = navigation.addListener('focus', e => {});
-
-    return remove;
-  }, []);
-}
-
 export function usePersistPause(key: keyof ReduxState, setState: (state: any) => void) {
-  useEffect(() => {
-    const persisted = store.getState()[key];
+  const persisted = useSelector<ReduxState>(state => state[key]);
 
+  useEffect(() => {
     persistor.pause();
 
     return () => {

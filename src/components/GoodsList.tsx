@@ -44,7 +44,7 @@ export default function GoodsList<T>(props: Props<T>) {
     if (activeCategory && list.current) {
       list.current.fetch();
     }
-  }, [activeCategory]);
+  }, [activeCategory, list]);
 
   const handleCategorySelect = (activeCategory: string) => {
     setActiveCategory(activeCategory);

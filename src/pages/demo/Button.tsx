@@ -21,12 +21,13 @@ export default function ButtonDemo() {
         sm btn
       </Button>
       <WhiteSpace />
-      <Button type='primary' onPress={() => Alert.alert('提示' , 'hello world')}>press</Button>
+      <Button type='primary' onPress={() => Alert.alert('提示', 'hello world')}>
+        press
+      </Button>
       <WhiteSpace />
       <Button type='primary' size='sm' disabled>
         disabled btn
       </Button>
-
     </Page>
   );
 }

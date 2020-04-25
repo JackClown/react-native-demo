@@ -22,7 +22,8 @@ export default function SwitchItem(props: { title: string | ReactNode; children?
           ios_backgroundColor={!rest.value ? color.background : color.primary}
           {...rest}
         />
-      }>
+      }
+    >
       {children}
     </ListItem>
   );

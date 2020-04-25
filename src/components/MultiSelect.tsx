@@ -32,7 +32,7 @@ export default function MultiSelect<T>(props: Props<T>) {
   const [keywords, setKeywords] = useState('');
   const [checked, setChecked] = useState(Map(value.map(item => [keyExtractor(item), item])));
 
-  const list = useMemo(() => data.filter(item => filter(item, keywords)), [data, keywords]);
+  const list = useMemo(() => data.filter(item => filter(item, keywords)), [data, keywords, filter]);
   const isSelectAll = useMemo(() => {
     let flag = true;
 
@@ -44,7 +44,7 @@ export default function MultiSelect<T>(props: Props<T>) {
     }
 
     return flag;
-  }, [list, checked]);
+  }, [list, checked, keyExtractor]);
 
   const changeKeywords = useCallback(
     debounce((keywords: string) => {
@@ -73,7 +73,7 @@ export default function MultiSelect<T>(props: Props<T>) {
     setChecked(checked);
   };
 
-  const renderItem = ({ item, index }: { item: T; index: number }) => {
+  const renderItem = ({ item }: { item: T; index: number }) => {
     const key = keyExtractor(item);
 
     return (

@@ -30,7 +30,8 @@ export default function Button(props: Props) {
           backgroundColor: disabled ? 'rgb(187,187,187)' : color[type]
         }
       ]}
-      activeOpacity={0.8}>
+      activeOpacity={0.8}
+    >
       <Text size={size === 'lg' || size === 'md' ? 'h1' : 'h3'} color='#fff'>
         {children}
       </Text>

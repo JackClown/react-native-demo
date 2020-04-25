@@ -1,16 +1,6 @@
 import React, { PureComponent } from 'react';
-import {
-  StyleSheet,
-  View,
-  ViewStyle,
-  StyleProp,
-  Platform,
-  Modal
-} from 'react-native';
-import WebView, {
-  WebViewProps,
-  WebViewMessageEvent
-} from 'react-native-webview';
+import { StyleSheet, View, ViewStyle, StyleProp, Platform, Modal } from 'react-native';
+import WebView, { WebViewProps, WebViewMessageEvent } from 'react-native-webview';
 import ImageViewer from 'react-native-image-zoom-viewer';
 
 import { whitespace, whitespace_lg } from '@/config/theme';
@@ -57,14 +47,8 @@ export default class RichTextView extends PureComponent<Props, State> {
     const { visible, images, index } = this.state;
 
     const content = html
-      .replace(
-        /(<img[^>]*?)width\s*?=\s*?(\'|\")\s*?\d+\s*?\2([^>]*?>)/g,
-        '$1$3'
-      )
-      .replace(
-        /(<img[^>]*?)height\s*?=\s*?(\'|\")\s*?\d+\s*?\2([^>]*?>)/g,
-        '$1$3'
-      );
+      .replace(/(<img[^>]*?)width\s*?=\s*?('|")\s*?\d+\s*?\2([^>]*?>)/g, '$1$3')
+      .replace(/(<img[^>]*?)height\s*?=\s*?('|")\s*?\d+\s*?\2([^>]*?>)/g, '$1$3');
 
     const source = {
       baseUrl: Platform.select({ ios: undefined, android: '' }),
@@ -120,17 +104,9 @@ export default class RichTextView extends PureComponent<Props, State> {
 
     return (
       <View style={[styles.container, style]}>
-        <WebView
-          source={source}
-          {...rest}
-          style={styles.webview}
-          onMessage={this.handlePressImage}
-        />
+        <WebView source={source} {...rest} style={styles.webview} onMessage={this.handlePressImage} />
         {showImage ? (
-          <Modal
-            onRequestClose={this.handleClose}
-            transparent
-            visible={visible}>
+          <Modal onRequestClose={this.handleClose} transparent visible={visible}>
             {images.length > 0 ? (
               <ImageViewer
                 imageUrls={images as any}

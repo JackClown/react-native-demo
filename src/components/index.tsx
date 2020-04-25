@@ -37,7 +37,6 @@ export { default as Footer } from './Footer';
 export { default as WhiteSpace } from './WhiteSpace';
 export { default as Popover } from './Popover';
 export { default as CollapseItem } from './CollapseItem';
-export { default as FooterInput } from './FooterInput';
 export { default as RichTextView } from './RichTextView';
 export { default as Gallery } from './Gallery';
 export { default as DatePickerItem } from './DatePickerItem';
