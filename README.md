@@ -32,5 +32,5 @@
 - 构造合理得用于布局的公用组件，类似 ant design Space，但希望比它更实用
 - 继续完成未完成组件
 - 完善主题自定义, 目前最好不要使用 config/theme.ts
-- 引入 ESLint
+- ~~引入 ESLint~~
 - 发布公用组件到 npm 上
