@@ -13,6 +13,7 @@ import Button from './Button';
 import GoodsList from './GoodsList';
 import SearchBar from './SearchBar';
 import Segment from './Segment';
+import Timer from './Timer';
 
 const screens: ScreenConfig[] = [
   {
@@ -104,6 +105,13 @@ const screens: ScreenConfig[] = [
     component: Segment,
     options: {
       title: 'Segment'
+    }
+  },
+  {
+    name: Routes.Demo.Timer,
+    component: Timer,
+    options: {
+      title: 'Timer'
     }
   }
 ];

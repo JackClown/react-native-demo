@@ -3,10 +3,10 @@ import { View, StyleSheet } from 'react-native';
 import moment from 'moment';
 import { Flex } from '@ant-design/react-native';
 
-import Text from './Text';
 import { scaleSize } from '@/utils/scale';
-import { primary_color } from '@/config/theme';
 import { useInterval } from '@/utils/hooks';
+import Text from './Text';
+import { useTheme } from './Theme';
 
 const { Provider, Consumer } = createContext(new Date());
 
@@ -38,7 +38,9 @@ interface Props {
 
 export default function Timer(props: Props) {
   const { time, format, outOfTime } = props;
+  const { color } = useTheme();
 
+  const style = [styles.time, { backgroundColor: color.primary }];
   const point = moment(time, format);
 
   return (
@@ -50,35 +52,44 @@ export default function Timer(props: Props) {
 
         const duration = moment.duration(point.diff(date));
 
-        const days = Math.floor(duration.asDays());
+        const days = duration.days();
         const hours = duration.hours();
         const minutes = duration.minutes();
+        const seconds = duration.seconds();
 
         return (
           <Flex>
-            <View style={styles.time}>
-              <Text size='normal' color='#fff'>
+            <View style={style}>
+              <Text size='md' color='#fff'>
                 {days}
               </Text>
             </View>
-            <Text size='normal' color='light'>
+            <Text size='md' color='light'>
               天
             </Text>
-            <View style={styles.time}>
-              <Text size='normal' color='#fff'>
+            <View style={style}>
+              <Text size='md' color='#fff'>
                 {('0' + hours).slice(-2)}
               </Text>
             </View>
-            <Text size='normal' color='light'>
+            <Text size='md' color='light'>
               小时
             </Text>
-            <View style={styles.time}>
-              <Text size='normal' color='#fff'>
+            <View style={style}>
+              <Text size='md' color='#fff'>
                 {('0' + minutes).slice(-2)}
               </Text>
             </View>
-            <Text size='normal' color='light'>
+            <Text size='md' color='light'>
               分
+            </Text>
+            <View style={style}>
+              <Text size='md' color='#fff'>
+                {('0' + seconds).slice(-2)}
+              </Text>
+            </View>
+            <Text size='md' color='light'>
+              秒
             </Text>
           </Flex>
         );
@@ -101,7 +112,6 @@ const styles = StyleSheet.create({
     height: scaleSize(28),
     marginHorizontal: scaleSize(4),
     paddingHorizontal: scaleSize(4),
-    backgroundColor: primary_color,
     borderRadius: scaleSize(4)
   }
 });
