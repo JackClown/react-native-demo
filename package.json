@@ -8,19 +8,18 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint **/*.ts **/*.tsx",
-    "lint-staged": "lint-staged",
     "mock": "node ./mocks/index",
     "postinstall": "./postinstall.sh"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
       "prettier --write",
-      "npm run lint"
+      "eslint"
     ]
   },
   "dependencies": {
