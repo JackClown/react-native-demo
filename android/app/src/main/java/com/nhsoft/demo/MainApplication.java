@@ -13,6 +13,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import com.nhsoft.demo.umeng.DplusReactPackage;
+import com.nhsoft.demo.umeng.RNUMConfigure;
+import com.umeng.commonsdk.UMConfigure;
 import com.microsoft.codepush.react.CodePush;
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
@@ -53,6 +55,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    RNUMConfigure.init(this, "your app key", "", UMConfigure.DEVICE_TYPE_PHONE, null);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 

@@ -50,7 +50,7 @@ static void InitializeFlipper(UIApplication *application) {
   [self.window makeKeyAndVisible];
   
   [UMConfigure setLogEnabled:YES];
-  [RNUMConfigure initWithAppkey:@"5d3aa41d0cafb2f208000b7e" channel:@"App Store"];
+  [RNUMConfigure initWithAppkey:@"your app key" channel:@"App Store"];
   [MobClick setScenarioType:E_UM_NORMAL];
 
   return YES;
