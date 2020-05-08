@@ -8121,10 +8121,10 @@ typescript-tuple@^2.2.1:
   dependencies:
     typescript-compare "^0.0.2"
 
-typescript@^3.9.0-dev.20200423:
-  version "3.9.0-dev.20200423"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.9.0-dev.20200423.tgz?cache=0&sync_timestamp=1587626258134&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.9.0-dev.20200423.tgz#3569bd92d57ccf0b389a08a5beed1e35c193ab16"
-  integrity sha1-NWm9ktV8zws4mgilvu0eNcGTqxY=
+typescript@^3.9.1-rc:
+  version "3.9.1-rc"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.9.1-rc.tgz#81d5a5a0a597e224b6e2af8dffb46524b2eaf5f3"
+  integrity sha1-gdWloKWX4iS24q+N/7RlJLLq9fM=
 
 ua-parser-js@^0.7.18:
   version "0.7.21"
