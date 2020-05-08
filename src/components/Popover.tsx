@@ -1,8 +1,10 @@
-import React, { PureComponent, ReactElement, createRef, ReactNode, createContext } from 'react';
+import React, { ReactElement, ReactNode, createContext, useRef, useState, useCallback } from 'react';
 import { StyleSheet, TouchableOpacity, TouchableHighlight } from 'react-native';
 import PopoverView from 'react-native-popover-view';
+
 import { scaleSize } from '@/utils/scale';
-import { whitespace, whitespace_lg, bottom_border_color, background_color } from '@/config/theme';
+import { whitespace, whitespace_lg, bottom_border_color } from '@/config/theme';
+import { useTheme } from './Theme';
 
 interface Props {
   children?: ReactElement<any>;
@@ -12,93 +14,80 @@ interface Props {
 interface ItemProps {
   onPress?: () => void;
   children?: ReactNode;
+  noBorder?: boolean;
 }
 
-interface State {
-  visible: boolean;
+const { Provider, Consumer } = createContext<() => void>(() => {});
+
+function Popover(props: Props) {
+  const { children, overlay } = props;
+
+  const anchor = useRef<any>();
+
+  const [visible, setVisible] = useState(false);
+
+  const close = useCallback(() => {
+    setVisible(false);
+  }, [setVisible]);
+
+  const { color } = useTheme();
+
+  return (
+    <Provider value={close}>
+      <TouchableOpacity onPress={() => setVisible(true)} ref={anchor}>
+        {children}
+      </TouchableOpacity>
+      <PopoverView
+        placement='bottom'
+        isVisible={visible}
+        fromView={anchor.current}
+        onRequestClose={() => setVisible(false)}
+        popoverStyle={StyleSheet.flatten([styles.popover, { backgroundColor: color.foreground }])}
+        backgroundStyle={styles.background}
+        arrowStyle={styles.arrow}
+      >
+        {overlay}
+      </PopoverView>
+    </Provider>
+  );
 }
 
-const { Provider, Consumer } = createContext<{
-  close: () => void;
-}>({
-  close: () => {}
-});
+function PopoverItem(props: ItemProps) {
+  const { onPress, noBorder } = props;
+  const { color } = useTheme();
 
-export default class Popover extends PureComponent<Props, State> {
-  anchor = createRef<any>();
+  return (
+    <Consumer>
+      {close => {
+        let handlePress;
 
-  open = () => {
-    this.setState({ visible: true });
-  };
+        if (onPress) {
+          handlePress = () => {
+            close();
 
-  close = () => {
-    this.setState({ visible: false });
-  };
+            onPress!();
+          };
+        } else {
+          handlePress = undefined;
+        }
 
-  ctx: { close: () => void };
-
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      visible: false
-    };
-
-    this.ctx = {
-      close: this.close
-    };
-  }
-
-  static Item = function (props: ItemProps) {
-    return (
-      <Consumer>
-        {({ close }) => {
-          let handlePress;
-
-          if (props.onPress) {
-            handlePress = () => {
-              close();
-
-              props.onPress!();
-            };
-          } else {
-            handlePress = undefined;
-          }
-
-          return (
-            <TouchableHighlight underlayColor={background_color} onPress={handlePress} style={styles.item}>
-              {props.children}
-            </TouchableHighlight>
-          );
-        }}
-      </Consumer>
-    );
-  };
-
-  render() {
-    const { children, overlay } = this.props;
-    const { visible } = this.state;
-
-    return (
-      <Provider value={this.ctx}>
-        <TouchableOpacity onPress={this.open} ref={this.anchor}>
-          {children}
-        </TouchableOpacity>
-        <PopoverView
-          placement='bottom'
-          isVisible={visible}
-          fromView={this.anchor.current}
-          onRequestClose={this.close}
-          popoverStyle={styles.popover}
-          backgroundStyle={styles.background}
-          arrowStyle={styles.arrow}
-        >
-          {overlay}
-        </PopoverView>
-      </Provider>
-    );
-  }
+        return (
+          <TouchableHighlight
+            underlayColor={color.background}
+            onPress={handlePress}
+            style={[styles.item, noBorder ? { borderBottomWidth: 0 } : undefined]}
+          >
+            {props.children}
+          </TouchableHighlight>
+        );
+      }}
+    </Consumer>
+  );
 }
+
+Popover.Item = PopoverItem;
+
+export default Popover;
 
 const styles = StyleSheet.create({
   popover: {
@@ -112,11 +101,12 @@ const styles = StyleSheet.create({
     height: whitespace / 2
   },
   item: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     width: '100%',
     height: scaleSize(72),
     paddingHorizontal: whitespace_lg,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: bottom_border_color
   }

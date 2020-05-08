@@ -7,7 +7,7 @@ import Text from './Text';
 import { useTheme } from './Theme';
 
 interface Props {
-  title: string;
+  title?: string;
   left?: ReactNode;
   right?: ReactNode;
 }
@@ -41,7 +41,8 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     height: '100%',
-    ...(screenOptions.headerLeftContainerStyle as any)
+    ...(screenOptions.headerLeftContainerStyle as any),
+    zIndex: 1
   },
   title: {
     width: '100%',

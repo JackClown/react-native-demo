@@ -8,6 +8,7 @@ export const Routes = {
     MultiSelect: 'common/multi-select'
   },
   Demo: {
+    HeaderOperators: 'demo/header-operators',
     Index: 'demo/index',
     List: 'demo/list',
     Text: 'demo/text',
@@ -57,6 +58,7 @@ export type ParamList = {
   [Routes.Demo.SearchBar]: undefined;
   [Routes.Demo.Segment]: undefined;
   [Routes.Demo.Timer]: undefined;
+  [Routes.Demo.HeaderOperators]: undefined;
 };
 
 export type ScreenConfig = RouteConfig<ParamList, any, any, StackNavigationOptions, never>;

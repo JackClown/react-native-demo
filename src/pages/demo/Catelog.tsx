@@ -33,6 +33,7 @@ export default function Catelog(props: Props) {
           <ListItem title='Segment' onPress={() => navigation.navigate(Routes.Demo.Segment)} arrow />
           <ListItem title='EditNotes' extra={<EditNotes value='1' onChange={val => console.log(val)} />} />
           <ListItem title='Timer' onPress={() => navigation.navigate(Routes.Demo.Timer)} arrow />
+          <ListItem title='HeaderOperators' onPress={() => navigation.navigate(Routes.Demo.HeaderOperators)} arrow />
         </List>
       </ScrollView>
     </Page>

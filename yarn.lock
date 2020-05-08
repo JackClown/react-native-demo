@@ -4020,11 +4020,6 @@ image-size@^0.6.0:
   resolved "https://registry.npm.taobao.org/image-size/download/image-size-0.6.3.tgz#e7e5c65bb534bd7cdcedd6cb5166272a85f75fb2"
   integrity sha1-5+XGW7U0vXzc7dbLUWYnKoX3X7I=
 
-immutable@^4.0.0-rc.12:
-  version "4.0.0-rc.12"
-  resolved "https://registry.npm.taobao.org/immutable/download/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"
-  integrity sha1-ylmn5MGa6Nm/dKl73w9uLypdAhc=
-
 import-fresh@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/import-fresh/download/import-fresh-2.0.0.tgz#d81355c15612d386c61f9ddd3922d4304822a546"
@@ -6692,10 +6687,10 @@ react-native-modal-popover@^0.0.12:
     lodash.debounce "^4.0.8"
     prop-types "^15.6.2"
 
-react-native-popover-view@^2.0.7:
-  version "2.0.7"
-  resolved "https://registry.npm.taobao.org/react-native-popover-view/download/react-native-popover-view-2.0.7.tgz#f740403e18719df833eeaf47d1b942704270c6b6"
-  integrity sha1-90BAPhhxnfgz7q9H0blCcEJwxrY=
+react-native-popover-view@^2.0.9:
+  version "2.0.9"
+  resolved "https://registry.npm.taobao.org/react-native-popover-view/download/react-native-popover-view-2.0.9.tgz#25f53fc284d296ee916067cc670714e80194299d"
+  integrity sha1-JfU/woTSlu6RYGfMZwcU6AGUKZ0=
   dependencies:
     react-native-safe-area-view "^0.14.6"
 

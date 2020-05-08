@@ -14,6 +14,7 @@ import GoodsList from './GoodsList';
 import SearchBar from './SearchBar';
 import Segment from './Segment';
 import Timer from './Timer';
+import HeaderOperators from './HeaderOperators';
 
 const screens: ScreenConfig[] = [
   {
@@ -112,6 +113,13 @@ const screens: ScreenConfig[] = [
     component: Timer,
     options: {
       title: 'Timer'
+    }
+  },
+  {
+    name: Routes.Demo.HeaderOperators,
+    component: HeaderOperators,
+    options: {
+      title: 'HeaderOperators'
     }
   }
 ];
