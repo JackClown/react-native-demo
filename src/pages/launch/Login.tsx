@@ -37,7 +37,7 @@ export default function Login(props: Props) {
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps='always'>
         <View style={styles.welcome}>
           <Text size={scaleFont(60)} color='dark'>
-            欢迎来到乐檬零售
+            欢迎
           </Text>
         </View>
         <View style={styles.inputWrapper}>
