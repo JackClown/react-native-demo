@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { FlatList, TouchableWithoutFeedback } from 'react-native';
-import { Map } from 'immutable';
 import { debounce } from 'lodash';
 import { Flex } from '@ant-design/react-native';
 import { NavigationProp } from '@react-navigation/native';
@@ -30,7 +29,7 @@ export default function MultiSelect<T>(props: Props<T>) {
   const { onChange, keyExtractor, value, filter, data, labelExtractor, placeholder } = props;
 
   const [keywords, setKeywords] = useState('');
-  const [checked, setChecked] = useState(Map(value.map(item => [keyExtractor(item), item])));
+  const [checked, setChecked] = useState(new Map(value.map(item => [keyExtractor(item), item])));
 
   const list = useMemo(() => data.filter(item => filter(item, keywords)), [data, keywords, filter]);
   const isSelectAll = useMemo(() => {
@@ -54,20 +53,24 @@ export default function MultiSelect<T>(props: Props<T>) {
   );
 
   const handleCheck = (key: string | number, item: T) => {
+    let nextChecked = new Map(checked);
+
     if (checked.has(key)) {
-      setChecked(checked.delete(key));
+      nextChecked.delete(key);
     } else {
-      setChecked(checked.set(key, item));
+      nextChecked.set(key, item);
     }
+
+    setChecked(nextChecked);
   };
 
   const selectAll = () => {
     let checked: Map<string | number, T>;
 
     if (isSelectAll) {
-      checked = Map();
+      checked = new Map();
     } else {
-      checked = Map(list.map(item => [keyExtractor(item), item]));
+      checked = new Map(list.map(item => [keyExtractor(item), item]));
     }
 
     setChecked(checked);
@@ -88,7 +91,7 @@ export default function MultiSelect<T>(props: Props<T>) {
   const extractor = (item: T) => keyExtractor(item).toString();
 
   const confirm = () => {
-    onChange(checked.toArray().map(item => item[1]));
+    onChange([...checked].map(item => item[1]));
   };
 
   return (

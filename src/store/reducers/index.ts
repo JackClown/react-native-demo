@@ -20,7 +20,7 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2
 };
 
-let prevState: any = undefined;
+let prevState: any;
 let paused: boolean = false;
 
 const rootReducer = (...args: ArgsType<typeof reducers>) => {

@@ -1,5 +1,5 @@
-import CodePush, { DownloadProgressCallback, RemotePackage } from "react-native-code-push";
-import { timeout } from "@/utils";
+import CodePush, { DownloadProgressCallback, RemotePackage } from 'react-native-code-push';
+import { timeout } from '@/utils';
 
 /**
  *
@@ -11,7 +11,7 @@ import { timeout } from "@/utils";
 export async function sync(
   key: string,
   wait: number = 0,
-  downloadProgressCallback?: DownloadProgressCallback 
+  downloadProgressCallback?: DownloadProgressCallback
 ): Promise<number> {
   let updated = 0;
 

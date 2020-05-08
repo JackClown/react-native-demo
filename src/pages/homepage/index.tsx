@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Image, StatusBar } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { grey_color, primary_color } from '@/config/theme';
 import { scaleSize } from '@/utils/scale';
 
 import { useTheme } from '@/components/Theme';
@@ -25,8 +24,8 @@ function Index() {
       <StatusBar backgroundColor={color.primary} barStyle='light-content' />
       <Tab.Navigator
         tabBarOptions={{
-          activeTintColor: primary_color,
-          inactiveTintColor: grey_color,
+          activeTintColor: color.primary,
+          inactiveTintColor: color.grey,
           style: {
             borderTopColor: color.line,
             backgroundColor: color.foreground,
