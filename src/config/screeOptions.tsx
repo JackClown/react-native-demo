@@ -4,7 +4,7 @@ import { useSafeArea } from 'react-native-safe-area-context';
 
 import { whitespace } from './theme';
 import { scaleFont, scaleSize } from '@/utils/scale';
-import { HeaderBack } from '@/components';
+import HeaderBack from '@/components/HeaderBack';
 import { useTheme } from '@/components/Theme';
 
 export const screenOptions: StackNavigationOptions = {

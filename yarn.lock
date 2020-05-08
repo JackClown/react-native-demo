@@ -7,22 +7,20 @@
   resolved "https://registry.npm.taobao.org/@ant-design/icons-react-native/download/@ant-design/icons-react-native-2.0.0.tgz#2574bb5067673151894590c13d2c804f03befa3a"
   integrity sha1-JXS7UGdnMVGJRZDBPSyATwO++jo=
 
-"@ant-design/react-native@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.npm.taobao.org/@ant-design/react-native/download/@ant-design/react-native-3.3.0.tgz#ecd1ef6e34f09e21e5969bce60996c5d8eeb01c3"
-  integrity sha1-7NHvbjTwniHllpvOYJlsXY7rAcM=
+"@ant-design/react-native@^4.0.0-2":
+  version "4.0.0-2"
+  resolved "https://registry.npm.taobao.org/@ant-design/react-native/download/@ant-design/react-native-4.0.0-2.tgz#e7b7b9bc483dfb78b84da36f7bfca2b99a32ae5c"
+  integrity sha1-57e5vEg9+3i4TaNve/yiuZoyrlw=
   dependencies:
     "@ant-design/icons-react-native" "^2.0.0"
     "@bang88/react-native-drawer-layout" "^2.0.3"
     "@bang88/react-native-ultimate-listview" "^3.3.0"
-    "@react-native-community/viewpager" "^1.1.7"
     array-tree-filter "~2.1.0"
     babel-runtime "^6.x"
     deepmerge "^3.0.0"
     normalize-css-color "^1.0.2"
-    react-native-collapsible "^1.4.0"
+    react-native-collapsible "^1.5.2"
     react-native-modal-popover "^0.0.12"
-    react-native-safe-area-view "^0.11.0"
     react-native-swipeout "^2.3.6"
     utility-types "^2.1.0"
 
@@ -1123,10 +1121,15 @@
   resolved "https://registry.npm.taobao.org/@react-native-community/masked-view/download/@react-native-community/masked-view-0.1.7.tgz#a65ce0702f55cb67fd777995de6fc7b3e5781903"
   integrity sha1-plzgcC9Vy2f9d3mV3m/Hs+V4GQM=
 
-"@react-native-community/viewpager@^1.1.7":
-  version "1.1.7"
-  resolved "https://registry.npm.taobao.org/@react-native-community/viewpager/download/@react-native-community/viewpager-1.1.7.tgz#7d3b1631f1ec91145db92a8e25c80d53027e96ba"
-  integrity sha1-fTsWMfHskRRduSqOJcgNUwJ+lro=
+"@react-native-community/picker@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/@react-native-community/picker/download/@react-native-community/picker-1.3.0.tgz#74be7dd93c54426677ddd68080ca253906a57e07"
+  integrity sha1-dL592TxUQmZ33daAgMolOQalfgc=
+
+"@react-native-community/viewpager@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.npm.taobao.org/@react-native-community/viewpager/download/@react-native-community/viewpager-4.0.0.tgz#bae6fc2d0689c85488a1f413ecf19e39b3b7e1d9"
+  integrity sha1-uub8LQaJyFSIofQT7PGeObO34dk=
 
 "@react-navigation/bottom-tabs@^5.2.7":
   version "5.2.7"
@@ -6634,10 +6637,10 @@ react-native-code-push@5.6.1:
     semver "^5.6.0"
     xcode "1.0.0"
 
-react-native-collapsible@^1.4.0:
-  version "1.5.1"
-  resolved "https://registry.npm.taobao.org/react-native-collapsible/download/react-native-collapsible-1.5.1.tgz#da2937b509921b28bf1b0f9eb8e50ad61c3ffb5d"
-  integrity sha1-2ik3tQmSGyi/Gw+euOUK1hw/+10=
+react-native-collapsible@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.npm.taobao.org/react-native-collapsible/download/react-native-collapsible-1.5.2.tgz#544616dc04a71870508dc707049544a805402993"
+  integrity sha1-VEYW3ASnGHBQjccHBJVEqAVAKZM=
   dependencies:
     prop-types "^15.6.2"
 
@@ -6707,13 +6710,6 @@ react-native-safe-area-context@^0.7.3:
   version "0.7.3"
   resolved "https://registry.npm.taobao.org/react-native-safe-area-context/download/react-native-safe-area-context-0.7.3.tgz#ad6bd4abbabe195332c53810e4ce5851eb21aa2a"
   integrity sha1-rWvUq7q+GVMyxTgQ5M5YUeshqio=
-
-react-native-safe-area-view@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.npm.taobao.org/react-native-safe-area-view/download/react-native-safe-area-view-0.11.0.tgz#4f3dda43c2bace37965e7c6aef5fc83d4f19d174"
-  integrity sha1-Tz3aQ8K6zjeWXnxq71/IPU8Z0XQ=
-  dependencies:
-    hoist-non-react-statics "^2.3.1"
 
 react-native-safe-area-view@^0.14.6:
   version "0.14.8"
