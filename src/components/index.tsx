@@ -50,3 +50,4 @@ export { default as MultiSelect } from './MultiSelect';
 export { default as Timer } from './Timer';
 export { default as Select } from './Select';
 export { default as Segment } from './Segment';
+export { default as Space } from './Space';
