@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
 
-import { screenOptions } from '@/config/screeOptions';
 import { scaleSize } from '@/utils/scale';
+import common from '@/config/styles';
 import Text from './Text';
 import { useTheme } from './Theme';
 
@@ -22,7 +22,9 @@ export default function Header(props: Props) {
       <View style={styles.header}>
         {left !== undefined && <View style={styles.left}>{left}</View>}
         <View style={styles.title}>
-          <Text style={styles.titleText}>{title}</Text>
+          <Text size='lg' color='#fff'>
+            {title}
+          </Text>
         </View>
         {right !== undefined && <View style={styles.right}>{right}</View>}
       </View>
@@ -41,8 +43,8 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     height: '100%',
-    ...(screenOptions.headerLeftContainerStyle as any),
-    zIndex: 1
+    zIndex: 1,
+    ...StyleSheet.flatten(common.headerLeft)
   },
   title: {
     width: '100%',
@@ -50,13 +52,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  titleText: screenOptions.headerTitleStyle as any,
   right: {
     position: 'absolute',
     top: 0,
     right: 0,
     height: '100%',
     zIndex: 1,
-    ...(screenOptions.headerRightContainerStyle as any)
+    ...StyleSheet.flatten(common.headerRight)
   }
 });

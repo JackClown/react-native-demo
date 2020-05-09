@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+
 import { primary_color, error_color, whitespace, bottom_border_color, lighter_color } from './theme';
 
 const styles = StyleSheet.create({
@@ -16,6 +17,16 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingBottom: 34
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: whitespace / 2
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: whitespace / 2
   }
 });
 

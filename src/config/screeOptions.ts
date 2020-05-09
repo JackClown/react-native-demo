@@ -1,31 +1,22 @@
-import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
 import { useSafeArea } from 'react-native-safe-area-context';
 
-import { whitespace } from './theme';
-import { scaleFont, scaleSize } from '@/utils/scale';
+import styles from './styles';
+import { scaleSize, scaleFont } from '@/utils/scale';
 import HeaderBack from '@/components/HeaderBack';
 import { useTheme } from '@/components/Theme';
+import { StyleSheet } from 'react-native';
 
 export const screenOptions: StackNavigationOptions = {
   headerStyle: {
     shadowColor: 'transparent',
     shadowOpacity: 0,
     elevation: 0,
-    borderBottomWidth: 0,
-    height: scaleSize(88)
+    borderBottomWidth: 0
   },
-  headerLeft: props => <HeaderBack {...props} />,
-  headerLeftContainerStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingLeft: whitespace / 2
-  },
-  headerRightContainerStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingRight: whitespace / 2
-  },
+  headerLeft: HeaderBack,
+  headerLeftContainerStyle: styles.headerLeft,
+  headerRightContainerStyle: styles.headerRight,
   headerTitleStyle: {
     fontSize: scaleFont(36),
     fontWeight: 'normal',
@@ -44,7 +35,7 @@ export default function useScreenOptions(): StackNavigationOptions {
   return {
     ...screenOptions,
     headerStyle: {
-      ...(screenOptions.headerStyle as Object),
+      ...StyleSheet.flatten(screenOptions.headerStyle),
       backgroundColor: color.header,
       height
     }

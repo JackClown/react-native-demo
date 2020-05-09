@@ -109,8 +109,6 @@ export default class CameraScanner extends Component<Props, State> {
               flashMode='auto'
               autoFocus='on'
               captureAudio={false}
-              permissionDialogTitle={'获取相机权限'}
-              permissionDialogMessage={'需要您的权限来访问相机'}
               onBarCodeRead={this.handleBarCodeRead}
             >
               <View style={styles.scanContainer}>
@@ -165,12 +163,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    width: '100%',
-    height: 48,
     flexDirection: 'row',
-    paddingRight: scaleSize(30),
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
+    height: scaleSize(88),
+    paddingLeft: whitespace / 2
   },
   scanContainer: {
     flex: 1
