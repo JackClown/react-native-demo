@@ -24,7 +24,9 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* shopTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* shopTests.m */; };
 		57F86EAA33AC33D7E32E5453 /* libPods-shop-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0BAB9409B897D3052C9D7A2 /* libPods-shop-tvOSTests.a */; };
+		980CB43C44AD43BEB87B0589 /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F8C8A62B4D0545E4A4CF2D05 /* antoutline.ttf */; };
 		AF7AF58A9CC1D12E66B73239 /* libPods-shop-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42998378A1CD973A3AAED432 /* libPods-shop-tvOS.a */; };
+		B8FE6B2D4A084FB59CC97DC2 /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EF5893772240AC9903F8B3 /* antfill.ttf */; };
 		F181EB463F8EA0FB703EEC38 /* libPods-shop-shopTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9236F9164494E48043ECD2 /* libPods-shop-shopTests.a */; };
 		B8FE6B2D4A084FB59CC97DC2 /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EF5893772240AC9903F8B3 /* antfill.ttf */; };
 		980CB43C44AD43BEB87B0589 /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F8C8A62B4D0545E4A4CF2D05 /* antoutline.ttf */; };
@@ -82,9 +84,9 @@
 		DB9236F9164494E48043ECD2 /* libPods-shop-shopTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-shop-shopTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F1EF5893772240AC9903F8B3 /* antfill.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antfill.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; };
 		F6235B0ACE401225CB410550 /* Pods-shop-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shop-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-shop-tvOSTests/Pods-shop-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		F1EF5893772240AC9903F8B3 /* antfill.ttf */ = {isa = PBXFileReference; name = "antfill.ttf"; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F8C8A62B4D0545E4A4CF2D05 /* antoutline.ttf */ = {isa = PBXFileReference; name = "antoutline.ttf"; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F8C8A62B4D0545E4A4CF2D05 /* antoutline.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +175,15 @@
 				B0BAB9409B897D3052C9D7A2 /* libPods-shop-tvOSTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		381B80B0E22F45D795A2EAC2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F1EF5893772240AC9903F8B3 /* antfill.ttf */,
+				F8C8A62B4D0545E4A4CF2D05 /* antoutline.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -418,7 +429,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		257BFE2B1F7232616005777D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
