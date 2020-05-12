@@ -33,12 +33,14 @@ export default function FilterDemo(props: Props) {
     }
   ];
 
-  const [value, setValue] = useState({
+  const defaultValue = {
     radio: 1,
     checkbox: [data[0]],
     select: data[0],
     multiSelect: [data[0]]
-  });
+  };
+
+  const [value, setValue] = useState(defaultValue);
 
   type ValueType = typeof value;
 
@@ -112,7 +114,7 @@ export default function FilterDemo(props: Props) {
         <View style={{ height: 600 }}>
           <PortalHost>
             <Modal visible={visible} onClose={() => setVisible(false)}>
-              <Filter value={value} data={filters} onChange={handleChange} />
+              <Filter value={value} data={filters} onChange={handleChange} defaultValue={defaultValue} />
             </Modal>
           </PortalHost>
         </View>
