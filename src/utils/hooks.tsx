@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { BackHandler } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import store, { persistor } from '@/store';
 import Modal from '@/components/Modal';
-import { useSelector } from 'react-redux';
 
 export function useInterval(callback: () => void, delay: number | null) {
   const savedCallback = useRef(callback);
