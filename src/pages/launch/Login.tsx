@@ -97,8 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   content: {
-    paddingHorizontal: scaleSize(40),
-    minHeight: '100%'
+    paddingHorizontal: scaleSize(40)
   },
   welcome: {
     marginTop: scaleSize(200),

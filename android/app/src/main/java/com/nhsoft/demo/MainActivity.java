@@ -2,9 +2,6 @@ package com.nhsoft.demo;
 
 import com.facebook.react.ReactActivity;
 
-import android.os.Bundle;
-import com.umeng.analytics.MobclickAgent;
-
 public class MainActivity extends ReactActivity {
 
   /**
@@ -14,23 +11,5 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "shop";
-  }
-
-  @Override
-  public void onResume() {
-    super.onResume();
-    MobclickAgent.onResume(this);
-  }
-
-  @Override
-  protected void onPause() {
-    super.onPause();
-    MobclickAgent.onPause(this);
-  }
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    MobclickAgent.setSessionContinueMillis(30 * 1000);
   }
 }

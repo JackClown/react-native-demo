@@ -5,11 +5,10 @@
 #import <React/RCTRootView.h>
 
 #import <CodePush/CodePush.h>
-#import <UMAnalytics/MobClick.h>
-#import "RNUMConfigure.h"
+#import <UMCommon/UMCommon.h>
 #import "UMAnalyticsModule.h"
 
-#if DEBUG
+#ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
 #import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
@@ -32,7 +31,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#if DEBUG
+#ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
 
@@ -49,9 +48,7 @@ static void InitializeFlipper(UIApplication *application) {
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   
-  [UMConfigure setLogEnabled:YES];
-  [RNUMConfigure initWithAppkey:@"your app key" channel:@"App Store"];
-  [MobClick setScenarioType:E_UM_NORMAL];
+  [UMConfigure initWithAppkey:@"" channel:@"App Store"];
 
   return YES;
 }
@@ -62,7 +59,7 @@ static void InitializeFlipper(UIApplication *application) {
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #else
   return [CodePush bundleURL];
-//  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  // return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
 

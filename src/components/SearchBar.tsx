@@ -1,10 +1,10 @@
 import React, { ReactNode, useState, useRef } from 'react';
 import { View, TextInput, TextInputProps, StyleSheet, TouchableOpacity, StyleProp, ViewStyle } from 'react-native';
 import Ionicon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import { whitespace, whitespace_lg } from '@/config/theme';
 import { scaleSize } from '@/utils/scale';
-import Icon from './Icon';
 import { useTheme } from './Theme';
 
 interface Props extends TextInputProps {
@@ -42,7 +42,7 @@ export function Search(props: Omit<Props, 'extra'>) {
 
   return (
     <View style={[styles.inputContainer, { backgroundColor: color.foreground }]}>
-      <Icon name='search' size={fontSize.h1} color={color.grey} />
+      <Icon name='search1' size={fontSize.h1} color={color.grey} />
       <TextInput
         returnKeyType='done'
         onChangeText={handleChange}

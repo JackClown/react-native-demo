@@ -6,19 +6,19 @@ import {
   View,
   Dimensions,
   Animated,
-  StatusBar,
   TouchableOpacity,
   StyleProp,
   ViewStyle,
+  Image,
+  StatusBar,
   SafeAreaView
 } from 'react-native';
-import { RNCamera } from 'react-native-camera';
+import { RNCamera, BarCodeType } from 'react-native-camera';
 import { throttle } from 'lodash';
+import Icon from 'react-native-vector-icons/AntDesign';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
-import Icon from './Icon';
-import HeaderBack from './HeaderBack';
 import { scaleFont, scaleSize } from '@/utils/scale';
-import { primary_color, whitespace } from '@/config/theme';
 
 interface State {
   visible: boolean;
@@ -32,29 +32,38 @@ interface Props {
   children?: ReactElement<{ onPress: () => void }>;
 }
 
-const size = Dimensions.get('window').height * 0.36;
+const { width, height } = Dimensions.get('window');
 
+let size = width > height ? height : width;
+
+size = size * 0.9;
 export default class CameraScanner extends Component<Props, State> {
   static defaultProps = {
     color: '#fff'
   };
 
-  state: State = {
+  public state: State = {
     visible: false,
     top: new Animated.Value(0)
   };
 
-  handleBarCodeRead = throttle(
-    ({ data }: { data: string }) => {
+  private handleBarCodeRead = throttle(
+    ({ data, type }: { data: string; type: keyof BarCodeType }) => {
       if (data) {
         this.closeModal();
 
         const { onScanSuccess } = this.props;
 
+        let barcode = data;
+
+        if (type === RNCamera.Constants.BarCodeType.ean13 && data[0] === '0') {
+          barcode = data.slice(1);
+        }
+
         if (onScanSuccess) {
-          onScanSuccess(data);
+          onScanSuccess(barcode);
         } else {
-          DeviceEventEmitter.emit('onScanSuccess', data);
+          DeviceEventEmitter.emit('onScanSuccess', barcode);
         }
       }
     },
@@ -62,19 +71,19 @@ export default class CameraScanner extends Component<Props, State> {
     { trailing: false }
   );
 
-  openModal = () => {
+  public openModal = () => {
     this.setState({ visible: true }, () => {
       this.animate();
     });
   };
 
-  closeModal = () => {
+  public closeModal = () => {
     this.setState({ visible: false });
   };
 
-  animate = () => {
+  private animate = () => {
     Animated.timing(this.state.top, {
-      toValue: size - 2,
+      toValue: size,
       duration: 3000,
       useNativeDriver: true
     }).start(() => {
@@ -88,6 +97,7 @@ export default class CameraScanner extends Component<Props, State> {
 
   render() {
     const { children, style, color } = this.props;
+    const { top, visible } = this.state;
 
     return (
       <>
@@ -96,141 +106,59 @@ export default class CameraScanner extends Component<Props, State> {
             onPress: this.openModal
           })
         ) : (
-          <TouchableOpacity onPress={this.openModal} style={[styles.iconContainer, style]}>
-            <Icon name='scan' size={scaleFont(40)} color={color} />
+          <TouchableOpacity onPress={this.openModal} style={style}>
+            <Ionicon name='scan-outline' size={scaleFont(40)} color={color} />
           </TouchableOpacity>
         )}
-        <Modal animationType='slide' visible={this.state.visible} onRequestClose={this.closeModal}>
-          <SafeAreaView style={styles.container}>
-            <StatusBar barStyle='light-content' />
-            <RNCamera
-              style={styles.preview}
-              type={RNCamera.Constants.Type.back}
-              flashMode='auto'
-              autoFocus='on'
-              captureAudio={false}
-              onBarCodeRead={this.handleBarCodeRead}
-            >
-              <View style={styles.scanContainer}>
-                <View style={styles.maskTop} />
-                <View style={styles.containerCenter}>
-                  <View style={styles.maskLeft} />
-                  <View style={styles.capture}>
-                    <Animated.View style={[styles.line, { transform: [{ translateY: this.state.top }] }]} />
-                    <View style={styles.cornerTopRight} />
-                    <View style={styles.cornerBottomRight} />
-                    <View style={styles.cornerBottomLeft} />
-                    <View style={styles.cornerTopLeft} />
-                  </View>
-                  <View style={styles.maskRight} />
-                </View>
-                <View style={styles.maskBottom} />
-              </View>
+        <Modal animationType='slide' visible={visible} onRequestClose={this.closeModal}>
+          <RNCamera
+            style={styles.preview}
+            type={RNCamera.Constants.Type.back}
+            flashMode='auto'
+            autoFocus='on'
+            captureAudio={false}
+            permissionDialogTitle='获取相机权限'
+            permissionDialogMessage='需要您的权限来访问相机'
+            onBarCodeRead={this.handleBarCodeRead}
+          >
+            <StatusBar backgroundColor='#000' />
+            <SafeAreaView style={{ flex: 1 }}>
               <View style={styles.header}>
-                <HeaderBack onPress={this.closeModal} />
+                <TouchableOpacity onPress={this.closeModal}>
+                  <Icon name='closesquare' color='#fff' size={scaleFont(60)} />
+                </TouchableOpacity>
               </View>
-            </RNCamera>
-          </SafeAreaView>
+              <View style={styles.area}>
+                <Animated.View style={{ transform: [{ translateY: top }] }}>
+                  <Image source={require('@/assets/img/scanner.png')} resizeMode='contain' style={styles.image} />
+                </Animated.View>
+              </View>
+            </SafeAreaView>
+          </RNCamera>
         </Modal>
       </>
     );
   }
 }
 
-const cornerStyle: any = {
-  position: 'absolute',
-  width: size / 10,
-  height: size / 10,
-  borderColor: 'rgba(255,255,255, 0.5)'
-};
-
-const cornerBorderWidth = 4;
-const maskColor = 'rgba(0,0,0,0.4)';
-
 const styles = StyleSheet.create({
-  iconContainer: {
-    padding: whitespace
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#000'
-  },
   preview: {
     flex: 1
   },
   header: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: '100%',
     height: scaleSize(88),
-    paddingLeft: whitespace / 2
+    paddingLeft: scaleSize(30)
   },
-  scanContainer: {
-    flex: 1
-  },
-  containerCenter: {
-    height: size,
-    flexDirection: 'row'
-  },
-  maskTop: {
-    flex: 1,
-    backgroundColor: maskColor
-  },
-  maskRight: {
-    flex: 1,
-    backgroundColor: maskColor
-  },
-  capture: {
+  area: {
     alignItems: 'center',
+    height: size
+  },
+  image: {
     width: size,
-    height: size,
-    borderColor: '#000',
-    borderWidth: 1
-  },
-  maskLeft: {
-    flex: 1,
-    backgroundColor: maskColor
-  },
-  maskBottom: {
-    flex: 1.5,
-    backgroundColor: maskColor
-  },
-  cornerTopRight: {
-    ...cornerStyle,
-    top: -cornerBorderWidth - 1,
-    right: -cornerBorderWidth - 1,
-    borderTopWidth: cornerBorderWidth,
-    borderRightWidth: cornerBorderWidth
-  },
-  cornerBottomRight: {
-    ...cornerStyle,
-    right: -cornerBorderWidth - 1,
-    bottom: -cornerBorderWidth - 1,
-    borderBottomWidth: cornerBorderWidth,
-    borderRightWidth: cornerBorderWidth
-  },
-  cornerBottomLeft: {
-    ...cornerStyle,
-    bottom: -cornerBorderWidth - 1,
-    left: -cornerBorderWidth - 1,
-    borderBottomWidth: cornerBorderWidth,
-    borderLeftWidth: cornerBorderWidth
-  },
-  cornerTopLeft: {
-    ...cornerStyle,
-    top: -cornerBorderWidth - 1,
-    left: -cornerBorderWidth - 1,
-    borderTopWidth: cornerBorderWidth,
-    borderLeftWidth: cornerBorderWidth
-  },
-  line: {
-    backgroundColor: primary_color,
-    width: size * 0.9,
-    height: 1
+    height: size * 0.25,
+    opacity: 0.9
   }
 });

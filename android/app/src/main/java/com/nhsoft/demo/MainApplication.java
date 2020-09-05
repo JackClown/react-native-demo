@@ -1,7 +1,5 @@
 package com.nhsoft.demo;
 
-import androidx.multidex.MultiDexApplication;
-
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
@@ -13,9 +11,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import com.nhsoft.demo.umeng.DplusReactPackage;
-import com.nhsoft.demo.umeng.RNUMConfigure;
-import com.umeng.commonsdk.UMConfigure;
+import androidx.multidex.MultiDexApplication;
 import com.microsoft.codepush.react.CodePush;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.analytics.MobclickAgent;
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
 
@@ -36,7 +35,9 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
+
           packages.add(new DplusReactPackage());
+
           return packages;
         }
 
@@ -57,6 +58,9 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     SoLoader.init(this, /* native exopackage */ false);
     RNUMConfigure.init(this, "your app key", "", UMConfigure.DEVICE_TYPE_PHONE, null);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+
+    UMConfigure.init(this, "", "", UMConfigure.DEVICE_TYPE_PHONE, null);
+    MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
   }
 
   /**

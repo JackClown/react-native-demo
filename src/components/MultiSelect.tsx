@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, ReactNode } from 'react';
 import { FlatList, TouchableWithoutFeedback } from 'react-native';
 import { debounce } from 'lodash';
 import { Flex } from '@ant-design/react-native';
@@ -13,7 +13,6 @@ import WhiteSpace from './WhiteSpace';
 import Text from './Text';
 import SubmitFooter from './SubmitFooter';
 import Modal from './Modal';
-import styles from '@/config/styles';
 
 interface Props<T> {
   onChange: (value: T[]) => void;
@@ -23,10 +22,11 @@ interface Props<T> {
   labelExtractor: (item: T) => string | number;
   filter: (item: T, keywords: string) => boolean;
   placeholder: string;
+  renderItem?: (item: T, index: number) => ReactNode;
 }
 
 export default function MultiSelect<T>(props: Props<T>) {
-  const { onChange, keyExtractor, value, filter, data, labelExtractor, placeholder } = props;
+  const { onChange, keyExtractor, value, filter, data, labelExtractor, placeholder, renderItem: render } = props;
 
   const [keywords, setKeywords] = useState('');
   const [checked, setChecked] = useState(new Map(value.map(item => [keyExtractor(item), item])));
@@ -76,15 +76,19 @@ export default function MultiSelect<T>(props: Props<T>) {
     setChecked(checked);
   };
 
-  const renderItem = ({ item }: { item: T; index: number }) => {
+  const renderItem = ({ item, index }: { item: T; index: number }) => {
     const key = keyExtractor(item);
 
     return (
-      <ListItem
-        title={labelExtractor(item)}
-        extra={<Check checked={checked.has(key)} />}
-        onPress={() => handleCheck(key, item)}
-      />
+      <ListItem extra={<Check checked={checked.has(key)} />} onPress={() => handleCheck(key, item)}>
+        {render ? (
+          render(item, index)
+        ) : (
+          <Text size='h3' color='dark'>
+            {labelExtractor(item)}
+          </Text>
+        )}
+      </ListItem>
     );
   };
 
@@ -96,13 +100,14 @@ export default function MultiSelect<T>(props: Props<T>) {
 
   return (
     <Page>
-      <SearchBar onChangeText={changeKeywords} placeholder={placeholder} changeOnClear />
+      <SearchBar onChangeText={changeKeywords} placeholder={placeholder} />
       <FlatList
-        contentContainerStyle={styles.list}
+        contentContainerStyle={{ paddingBottom: 34 }}
         data={list}
         keyExtractor={extractor}
         renderItem={renderItem}
         extraData={checked}
+        windowSize={3}
       />
       <SubmitFooter
         left={
@@ -128,27 +133,64 @@ export default function MultiSelect<T>(props: Props<T>) {
   );
 }
 
-MultiSelect.create = function <T extends string | number, K = any>(
-  fetch: (query: K) => PromiseLike<LabeledValue<T>[]>,
-  placeholder: string = '输入名称查询'
-) {
+function create<T, K = any>(
+  fetch: (query: K) => PromiseLike<T[]>,
+  others: {
+    placeholder?: string;
+    keyExtractor: (item: T) => string | number;
+    labelExtractor: (item: T) => string | number;
+    filter: (item: T, keywords: string) => boolean;
+  }
+): React.FC<{
+  route: {
+    params: {
+      value: T[];
+      onChange: (value: T[]) => void;
+    };
+  };
+  navigation: NavigationProp<any>;
+}>;
+
+function create<T extends LabeledValue | LabeledValue<number> | LabeledValue<string>, K = any>(
+  fetch: (query: K) => PromiseLike<T[]>,
+  others?: {
+    placeholder?: string;
+  }
+): React.FC<{
+  route: {
+    params: {
+      value: T[];
+      onChange: (value: T[]) => void;
+    };
+  };
+  navigation: NavigationProp<any>;
+}>;
+
+function create<T, K extends object>(fetch: (query: K) => PromiseLike<T[]>, others: any = {}) {
+  const {
+    placeholder = '输入名称查询',
+    keyExtractor = (item: LabeledValue) => item.value,
+    labelExtractor = (item: LabeledValue) => item.label,
+    filter = (item: LabeledValue, keywords: string) => item.label.includes(keywords)
+  } = others;
+
   return function (props: {
     route: {
       params: {
-        value: LabeledValue<T>[];
-        onChange: (value: LabeledValue<T>[]) => void;
+        value: T[];
+        onChange: (value: T[]) => void;
       } & K;
     };
     navigation: NavigationProp<any>;
   }) {
-    const { route, navigation } = props;
+    const { navigation, route } = props;
     const { value, onChange, ...query } = route.params;
 
-    const [data, setData] = useState<LabeledValue<T>[]>([]);
+    const [data, setData] = useState<T[]>([]);
 
     useAsyncEffect(async flag => {
       try {
-        const data = await fetch(query as any);
+        const data = await fetch(query as K);
 
         if (flag.cancelled) return;
 
@@ -158,19 +200,7 @@ MultiSelect.create = function <T extends string | number, K = any>(
       }
     }, []);
 
-    const keyExtractor = (item: LabeledValue<T>) => {
-      return item.value;
-    };
-
-    const labelExtractor = (item: LabeledValue<T>) => {
-      return item.label;
-    };
-
-    const filter = (item: LabeledValue<T>, keywords: string) => {
-      return item.label.includes(keywords);
-    };
-
-    const handleChange = (value: LabeledValue<T>[]) => {
+    const handleChange = (value: any[]) => {
       navigation.goBack();
       onChange(value);
     };
@@ -187,4 +217,6 @@ MultiSelect.create = function <T extends string | number, K = any>(
       />
     );
   };
-};
+}
+
+MultiSelect.create = create;
