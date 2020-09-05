@@ -1,10 +1,9 @@
 import React, { ReactElement } from 'react';
-import AntdIcon from 'react-native-vector-icons/AntDesign';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import Popover from './Popover';
 import Text from './Text';
-import Icon from './Icon';
 import styles from '@/config/styles';
 import { scaleSize } from '@/utils/scale';
 
@@ -75,7 +74,7 @@ export default function HeaderOperators(props: Props) {
           }
         >
           <View style={styles.headerBtn}>
-            <AntdIcon name='ellipsis1' color='#fff' size={scaleSize(40)} />
+            <Icon name='ellipsis1' color='#fff' size={scaleSize(40)} />
           </View>
         </Popover>
       );

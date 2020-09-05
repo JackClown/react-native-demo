@@ -1,9 +1,9 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
 
 import styles from '@/config/styles';
 import { scaleSize } from '@/utils/scale';
-import Icon from '@/components/Icon';
 
 export default function HeaderBack(props: { onPress?: () => void }) {
   const { onPress } = props;
@@ -16,7 +16,7 @@ export default function HeaderBack(props: { onPress?: () => void }) {
 
   return (
     <TouchableOpacity onPress={handlePress} style={styles.headerBtn}>
-      <Icon name='back' size={scaleSize(40)} color='#fff' />
+      <Icon name='chevron-thin-left' size={scaleSize(40)} color='#fff' />
     </TouchableOpacity>
   );
 }

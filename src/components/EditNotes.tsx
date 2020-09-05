@@ -14,10 +14,10 @@ import {
 } from 'react-native';
 import { Flex } from '@ant-design/react-native';
 import ModalView from '@ant-design/react-native/lib/modal/ModalView';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import { whitespace, whitespace_lg } from '@/config/theme';
 import { scaleSize } from '@/utils/scale';
-import Icon from './Icon';
 import Text from './Text';
 import { KEYBOARD_WILL_SHOW } from './Footer';
 import { ThemeConsumer } from './Theme';
@@ -92,7 +92,7 @@ export default class EditNotes extends Component<Props> {
           <>
             <View style={styles.btnContainer}>
               <TouchableOpacity style={styles.btn} onPress={this.handleOpen}>
-                <Icon name='message' size={fontSize.h2} color={color.grey} />
+                <Icon name='message1' size={fontSize.h2} color={color.grey} />
               </TouchableOpacity>
             </View>
             <ModalView

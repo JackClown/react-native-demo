@@ -20,7 +20,7 @@ import com.android.build.OutputFile
  *   // default. Can be overridden with ENTRY_FILE environment variable.
  *   entryFile: "index.android.js",
  *
- *   // https://facebook.github.io/react-native/docs/performance#enable-the-ram-format
+ *   // https://reactnative.dev/docs/performance#enable-the-ram-format
  *   bundleCommand: "ram-bundle",
  *
  *   // whether to bundle JS and assets in debug mode
@@ -134,10 +134,11 @@ android {
         applicationId "com.nhsoft.demo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 13
+        versionCode 1
         versionName "1.0"
-        missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
+
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
         abi {
@@ -161,18 +162,11 @@ android {
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
-            // see https://facebook.github.io/react-native/docs/signed-apk-android.
+            // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
-    }
-
-    packagingOptions {
-        pickFirst "lib/armeabi-v7a/libc++_shared.so"
-        pickFirst "lib/arm64-v8a/libc++_shared.so"
-        pickFirst "lib/x86/libc++_shared.so"
-        pickFirst "lib/x86_64/libc++_shared.so"
     }
 
     // applicationVariants are e.g. debug, release
@@ -187,12 +181,6 @@ android {
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
 
-        }
-    }
-
-    configurations.all {
-        resolutionStrategy {
-            force "com.facebook.soloader:soloader:0.8.2"
         }
     }
 }
@@ -210,6 +198,7 @@ dependencies {
 
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.flipper'
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
     }
 
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
@@ -225,6 +214,14 @@ dependencies {
     }
 
     implementation 'androidx.multidex:multidex:2.0.1'
+    implementation  'com.umeng.umsdk:common:9.1.0'
+    implementation  'com.umeng.umsdk:asms:1.1.3'
+    implementation 'com.umeng.umsdk:crash:0.0.4'
+
+    implementation  'com.umeng.umsdk:oaid_lenovo:1.0.0'
+    implementation  'com.umeng.umsdk:oaid_mi:1.0.0'
+    implementation  'com.umeng.umsdk:oaid_oppo:1.0.4'
+    implementation  'com.umeng.umsdk:oaid_vivo:1.0.0.1'
 }
 
 // Run this once to be able to run the application with BUCK

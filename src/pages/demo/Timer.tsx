@@ -4,7 +4,7 @@ import { Text, Timer, Page, Card } from '@/components';
 function TimerDemo() {
   return (
     <Timer
-      time='2020-04-26 12:00:00'
+      time='2100-04-26 12:00:00'
       outOfTime={
         <Text size='md' color='dark'>
           到点了

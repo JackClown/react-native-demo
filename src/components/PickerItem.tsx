@@ -53,6 +53,7 @@ export default function PickerItem<T extends ReactText = ReactText>(props: Props
       for (let item of data) {
         if (item.value === value[0]) {
           onChange(value[0] as T);
+          break;
         }
       }
     }

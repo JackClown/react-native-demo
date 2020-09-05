@@ -26,9 +26,7 @@ export default function Catelog(props: Props) {
           <ListItem title='Filter' onPress={() => navigation.navigate(Routes.Demo.Filter)} arrow />
           <ListItem title='GoodsItem' onPress={() => navigation.navigate(Routes.Demo.GoodsItem)} arrow />
           <ListItem title='Button' onPress={() => navigation.navigate(Routes.Demo.Button)} arrow />
-          <CameraScanner>
-            <ListItem title='CameraScanner' />
-          </CameraScanner>
+          <ListItem title='CameraScanner' extra={<CameraScanner color='#666' />} />
           <ListItem title='GoodsList' onPress={() => navigation.navigate(Routes.Demo.GoodsList)} arrow />
           <ListItem title='Segment' onPress={() => navigation.navigate(Routes.Demo.Segment)} arrow />
           <ListItem title='EditNotes' extra={<EditNotes value='1' onChange={val => console.log(val)} />} />

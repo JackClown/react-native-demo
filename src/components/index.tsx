@@ -5,7 +5,6 @@ export { default as Label } from './Label';
 export { default as SearchBar } from './SearchBar';
 export { default as Tabs } from './Tabs';
 export { default as HeaderBack } from './HeaderBack';
-export { default as Icon } from './Icon';
 export { default as Radio } from './Radio';
 export { default as Filter } from './Filter';
 export { default as PickerItem } from './PickerItem';

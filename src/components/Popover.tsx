@@ -1,9 +1,9 @@
 import React, { ReactElement, ReactNode, createContext, useRef, useState, useCallback } from 'react';
 import { StyleSheet, TouchableOpacity, TouchableHighlight } from 'react-native';
-import PopoverView from 'react-native-popover-view';
+import PopoverView, { PopoverPlacement } from 'react-native-popover-view';
 
 import { scaleSize } from '@/utils/scale';
-import { whitespace, whitespace_lg, bottom_border_color } from '@/config/theme';
+import { whitespace, whitespace_lg } from '@/config/theme';
 import { useTheme } from './Theme';
 
 interface Props {
@@ -38,10 +38,10 @@ function Popover(props: Props) {
         {children}
       </TouchableOpacity>
       <PopoverView
-        placement='bottom'
+        placement={PopoverPlacement.BOTTOM}
         isVisible={visible}
-        fromView={anchor.current}
-        onRequestClose={() => setVisible(false)}
+        from={anchor}
+        onRequestClose={close}
         popoverStyle={StyleSheet.flatten([styles.popover, { backgroundColor: color.foreground }])}
         backgroundStyle={styles.background}
         arrowStyle={styles.arrow}
@@ -75,7 +75,7 @@ function PopoverItem(props: ItemProps) {
           <TouchableHighlight
             underlayColor={color.background}
             onPress={handlePress}
-            style={[styles.item, noBorder ? { borderBottomWidth: 0 } : undefined]}
+            style={[{ borderBottomColor: color.line }, styles.item, noBorder ? { borderBottomWidth: 0 } : undefined]}
           >
             {props.children}
           </TouchableHighlight>
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: scaleSize(72),
     paddingHorizontal: whitespace_lg,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: bottom_border_color
+    borderBottomWidth: StyleSheet.hairlineWidth
   }
 });
