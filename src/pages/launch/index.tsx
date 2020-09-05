@@ -31,15 +31,15 @@ function Launch(props: Props) {
     const user = await getCurrentUser();
 
     const deploymentKey = {
-      ios: 'VJBPHmQio11msdBGC2XVPtLWJDVW4ksvOXqog',
-      android: 'AEwVZMajazeUPga2JphhqYqnaswk4ksvOXqog'
+      android: '3OxQJcSAPAWYh7mC9J3_Q6QVN2c8SyOHMdZnN',
+      ios: 'w7T5XyO59tSt8aX7HHaM5cMrQvG_By60ZuZ3N'
     };
 
-    const flag = await sync(Platform.select(deploymentKey) as string, 2000, ({ totalBytes, receivedBytes }) => {
+    const flag = await sync(Platform.select(deploymentKey) as string, 5000, ({ totalBytes, receivedBytes }) => {
       setProgress(((receivedBytes / totalBytes) * 100).toFixed(0) + '%');
     });
 
-    if (flag === 0) {
+    if (flag !== 1) {
       await new Promise((res, rej) => {
         setUser({
           user,
@@ -52,7 +52,6 @@ function Launch(props: Props) {
           }
         });
       });
-    } else if (flag === 1) {
     }
   };
 

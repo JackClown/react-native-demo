@@ -56,7 +56,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-    RNUMConfigure.init(this, "your app key", "", UMConfigure.DEVICE_TYPE_PHONE, null);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
 
     UMConfigure.init(this, "", "", UMConfigure.DEVICE_TYPE_PHONE, null);

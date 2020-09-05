@@ -9,7 +9,6 @@ target 'shop' do
   use_react_native!(:path => config["reactNativePath"])
 
   # Custom 
-  pod 'CodePush', :path => '../node_modules/react-native-code-push'
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'UMCCommon'
 
